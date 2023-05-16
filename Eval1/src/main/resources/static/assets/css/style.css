@@ -1,0 +1,23 @@
+.fc-timegrid-event {
+    min-height: 2em;
+    overflow: hidden;
+}
+
+.fc-list-event:hover td {
+    background: none !important;
+}
+
+.error-div {
+    background-color: var(--bs-danger);
+    padding: 10px 5px;
+    border-radius: 5px;
+    color: white;
+}
+
+.fc-scroller {
+    overflow: visible !important;
+}
+
+.fc-scroller-harness {
+    overflow: visible !important;
+}
