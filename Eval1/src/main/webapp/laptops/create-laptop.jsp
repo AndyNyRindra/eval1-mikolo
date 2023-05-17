@@ -105,7 +105,7 @@
                 </select>
               </div>
               <div class="col-sm-6 mb-5">
-                <label>Taille ram (en Mo) :</label>
+                <label>Taille ram (en Go) :</label>
                 <input type="text" name="ramValue" class="form-control" required>
               </div>
             </div>

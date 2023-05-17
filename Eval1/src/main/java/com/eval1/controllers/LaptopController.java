@@ -88,4 +88,20 @@ public class LaptopController {
         modelAndView.setViewName("laptops/list-laptops");
         return modelAndView;
     }
+
+    @GetMapping("delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) throws Exception {
+        securityManager.isAdmin();
+        try {
+
+            laptopService.delete(id);
+            return ResponseEntity.ok("success");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+
+        }
+
+    }
 }
