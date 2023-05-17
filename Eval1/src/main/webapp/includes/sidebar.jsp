@@ -49,6 +49,30 @@
                 data-kt-menu="true" data-kt-menu-expand="false">
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                     <span class="menu-link">
+                        <span class="menu-title">Ordinateur</span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                    <div class="menu-sub menu-sub-accordion">
+                        <div class="menu-item">
+                            <a href="${pageContext.request.contextPath}/laptops" class="menu-link">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Liste</span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a href="${pageContext.request.contextPath}/laptops/create" class="menu-link">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Créer</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                    <span class="menu-link">
                         <span class="menu-title">Magasin</span>
                         <span class="menu-arrow"></span>
                     </span>
@@ -196,6 +220,8 @@
                         </div>
                     </div>
                 </div>
+
+
             </div>
             <!--end::Menu-->
         </div>
