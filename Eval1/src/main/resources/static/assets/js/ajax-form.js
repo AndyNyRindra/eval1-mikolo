@@ -56,3 +56,40 @@ function send(formData, urlSend, urlSuccess){
     }
     request.send(formData);
 }
+
+function sendGet(urlSend, urlSuccess){
+
+    const request = new XMLHttpRequest();
+    request.open("GET", urlSend);
+    // Afficher le loader
+    showLoader();
+    request.onreadystatechange = () => {
+        if (request.readyState === XMLHttpRequest.DONE) {
+            hideLoader();
+            const status = request.status;
+            if (status === 0 || (status >= 200 && status < 400)) {
+                // The request has been completed successfully
+                if (urlSuccess === undefined || urlSuccess === null) {
+                    location.reload();
+                    // Swal.fire({
+                    //     text: request.responseText,
+                    //     icon: 'success',
+                    //     confirmButtonText: 'OK'
+                    // })
+
+                } else {
+                    window.location.href = urlSuccess;
+                }
+
+            } else {
+                const error = request.responseText
+                Swal.fire({
+                    text: error,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                })
+            }
+        }
+    }
+    request.send();
+}

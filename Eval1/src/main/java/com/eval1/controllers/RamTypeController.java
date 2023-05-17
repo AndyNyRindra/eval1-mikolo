@@ -84,11 +84,18 @@ public class RamTypeController {
     }
 
     @GetMapping("delete/{id}")
-    public ModelAndView delete(@PathVariable("id") Long id) throws Exception {
+    public ResponseEntity<?> delete(@PathVariable Long id) throws Exception {
         securityManager.isAdmin();
-        ModelAndView modelAndView = new ModelAndView();
-        ramTypeService.delete(id);
-        modelAndView.setViewName("redirect:/rams");
-        return modelAndView;
+        try {
+
+            ramTypeService.delete(id);
+            return ResponseEntity.ok("success");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+
+        }
+
     }
 }

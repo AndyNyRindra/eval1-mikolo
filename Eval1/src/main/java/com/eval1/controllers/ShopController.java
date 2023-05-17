@@ -94,11 +94,18 @@ public class ShopController {
     }
 
     @GetMapping("delete/{id}")
-    public ModelAndView delete(@PathVariable("id") Long id) throws Exception {
+    public ResponseEntity<?> delete(@PathVariable Long id) throws Exception {
         securityManager.isAdmin();
-        ModelAndView modelAndView = new ModelAndView();
-        shopService.delete(id);
-        modelAndView.setViewName("redirect:/shops");
-        return modelAndView;
+        try {
+
+            shopService.delete(id);
+            return ResponseEntity.ok("success");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+
+        }
+
     }
 }

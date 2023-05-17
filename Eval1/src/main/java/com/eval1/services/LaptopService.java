@@ -37,6 +37,11 @@ public class LaptopService extends CrudService<Laptop, LaptopRepo> {
         return Laptop.class;
     }
 
+    public Integer getRequiredPages (Long count) {
+        return (int) Math.ceil((double)count / (double)getPageSize());
+    }
+
+
     boolean isLaptopAlreadyExists(Laptop laptop) throws CustomException {
         if (laptop.getId() != null) {
             if (repo.findByReferenceAndId(laptop.getReference(), laptop.getId()).isEmpty()) {

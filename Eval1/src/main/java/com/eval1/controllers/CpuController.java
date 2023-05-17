@@ -87,11 +87,18 @@ public class CpuController {
     }
 
     @GetMapping("delete/{id}")
-    public ModelAndView delete(@PathVariable("id") Long id) throws Exception {
+    public ResponseEntity<?> delete(@PathVariable Long id) throws Exception {
         securityManager.isAdmin();
-        ModelAndView modelAndView = new ModelAndView();
-        cpuService.delete(id);
-        modelAndView.setViewName("redirect:/cpus");
-        return modelAndView;
+        try {
+
+            cpuService.delete(id);
+            return ResponseEntity.ok("success");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+
+        }
+
     }
 }

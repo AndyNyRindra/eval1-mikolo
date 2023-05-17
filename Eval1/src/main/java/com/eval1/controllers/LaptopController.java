@@ -1,11 +1,14 @@
 package com.eval1.controllers;
 
 import com.eval1.models.laptop.Laptop;
+import com.eval1.models.laptop.LaptopFilter;
 import com.eval1.models.laptop.view.LaptopInput;
 import com.eval1.models.ram.RamType;
+import com.eval1.models.ram.RamTypeFilter;
 import com.eval1.security.SecurityManager;
 import com.eval1.services.LaptopService;
 import com.eval1.services.RamTypeService;
+import custom.springutils.util.ListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -70,5 +73,19 @@ public class LaptopController {
 
         }
 
+    }
+
+    @GetMapping
+    public ModelAndView list(ModelAndView modelAndView, LaptopFilter laptopFilter, @RequestParam(required = false) Integer page) throws Exception {
+        securityManager.isAdmin();
+        if (page == null) page = 1;
+        ListResponse laptops = laptopService.search(laptopFilter, page);
+        modelAndView.addObject("requiredPages", laptopService.getRequiredPages(laptops.getCount()));
+        modelAndView.addObject("laptops",laptops);
+        modelAndView.addObject("laptopForm", laptopService.getLaptopForm());
+        modelAndView.addObject("page", page);
+        if (laptopFilter != null) modelAndView.addObject("laptopFilter", laptopFilter);
+        modelAndView.setViewName("laptops/list-laptops");
+        return modelAndView;
     }
 }

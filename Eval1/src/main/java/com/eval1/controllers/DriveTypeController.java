@@ -85,11 +85,18 @@ public class DriveTypeController {
     }
 
     @GetMapping("delete/{id}")
-    public ModelAndView delete(@PathVariable("id") Long id) throws Exception {
+    public ResponseEntity<?> delete(@PathVariable Long id) throws Exception {
         securityManager.isAdmin();
-        ModelAndView modelAndView = new ModelAndView();
-        driveTypeService.delete(id);
-        modelAndView.setViewName("redirect:/drives");
-        return modelAndView;
+        try {
+
+            driveTypeService.delete(id);
+            return ResponseEntity.ok("success");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+
+        }
+
     }
 }

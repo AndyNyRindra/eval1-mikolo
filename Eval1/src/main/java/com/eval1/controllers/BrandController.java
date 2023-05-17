@@ -84,11 +84,18 @@ public class BrandController {
     }
 
     @GetMapping("delete/{id}")
-    public ModelAndView delete(@PathVariable("id") Long id) throws Exception {
+    public ResponseEntity<?> delete(@PathVariable Long id) throws Exception {
         securityManager.isAdmin();
-        ModelAndView modelAndView = new ModelAndView();
-        brandService.delete(id);
-        modelAndView.setViewName("redirect:/brands");
-        return modelAndView;
+        try {
+
+            brandService.delete(id);
+            return ResponseEntity.ok("success");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+
+        }
+
     }
 }

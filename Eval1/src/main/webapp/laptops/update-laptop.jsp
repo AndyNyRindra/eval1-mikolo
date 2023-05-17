@@ -180,7 +180,7 @@
                         form.addEventListener('submit', function(evnt) {
                             evnt.preventDefault();
                             const formData = new FormData(form);
-                            send(formData, "${pageContext.request.contextPath}/laptops/<%=laptop.getId()%>", null)
+                            send(formData, "${pageContext.request.contextPath}/laptops/<%=laptop.getId()%>", "${pageContext.request.contextPath}/shops")
                         });
                     </script>
                 </div>

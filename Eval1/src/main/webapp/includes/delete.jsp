@@ -17,7 +17,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Annuler</button>
-                <a href="" class="btn btn-danger" id="element-url">Supprimer</a>
+                <a class="btn btn-danger" id="element-url">Supprimer</a>
             </div>
         </div>
     </div>
