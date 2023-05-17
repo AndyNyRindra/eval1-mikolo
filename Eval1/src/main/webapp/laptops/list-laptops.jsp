@@ -3,6 +3,11 @@
 <%@ page import="com.eval1.models.laptop.Laptop" %>
 <%@ page import="com.eval1.models.laptop.LaptopFilter" %>
 <%@ page import="com.eval1.models.laptop.view.LaptopForm" %>
+<%@ page import="com.eval1.models.brand.Brand" %>
+<%@ page import="com.eval1.models.cpu.Cpu" %>
+<%@ page import="com.eval1.models.drive.DriveType" %>
+<%@ page import="com.eval1.models.ram.RamType" %>
+<%@ page import="com.eval1.models.screen.ScreenType" %>
 
 <%@include file="../includes/layouts/default/top.jsp"%>
 <%
@@ -18,7 +23,11 @@
     }
 %>
 
-
+<style>
+    .modal-dialog {
+        max-width: 900px !important;
+    }
+</style>
 
 <!--begin::main-->
 <div class="d-flex flex-column flex-column-fluid">
@@ -49,7 +58,7 @@
         <div class="app-container container-xxl">
 
             <!--begin::card-->
-            <form method="get">
+            <form id="search-form" method="get">
                 <div class="card card-flush mb-5">
 
 
@@ -77,9 +86,9 @@
                                         <div class="row search-container">
                                             <div class="col-md-12 col-sm-8 mb-5">
                                                 <input type="text" name="keyWord" class="form-control" placeholder="Recherche..."
-<%--                                                    <% if(sceneFilter != null && sceneFilter.getKeyWord() != null) { %>--%>
-<%--                                                       value="<%=sceneFilter.getKeyWord()%>"--%>
-<%--                                                    <% } %>--%>
+                                                    <% if(laptopFilter != null && laptopFilter.getKeyWord() != null) { %>
+                                                       value="<%=laptopFilter.getKeyWord()%>"
+                                                    <% } %>
                                                 >
                                             </div>
                                             <button style="border: none; background-color: transparent; font-size: 20px !important;" class="bi bi-search fs-2qx search-btn" type="submit">
@@ -145,133 +154,212 @@
 
                 <div class="modal fade" tabindex="-1" id="search-modal">
                     <div class="modal-dialog">
-<%--                        <div class="modal-content">--%>
-<%--                            <div class="modal-header">--%>
-<%--                                <h3 class="modal-title">Filtrer</h3>--%>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Filtrer</h3>
 
-<%--                                <!--begin::Close-->--%>
-<%--                                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">--%>
-<%--                                    <i class="fa-solid fa-xmark fs-1"></i>--%>
-<%--                                </div>--%>
-<%--                                <!--end::Close-->--%>
-<%--                            </div>--%>
+                                <!--begin::Close-->
+                                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                                    <i class="fa-solid fa-xmark fs-1"></i>
+                                </div>
+                                <!--end::Close-->
+                            </div>
 
-<%--                            <div class="modal-body">--%>
+                            <div class="modal-body">
 
-<%--                                <div class="mb-5">--%>
-<%--                                    <label>Numero de scene :</label>--%>
-<%--                                    <input type="text" name="sceneNumber" class="form-control"--%>
-<%--                                        <% if(sceneFilter != null && sceneFilter.getSceneNumber() != null) { %>--%>
-<%--                                           value="<%=sceneFilter.getSceneNumber().replace("%", "")%>"--%>
-<%--                                        <% } %>--%>
-<%--                                    >--%>
-<%--                                </div>--%>
-<%--                                <div class="mb-5">--%>
-<%--                                    <label>Acteur / personnage :</label>--%>
-<%--                                    <input type="text" name="actorsCharacters" class="form-control"--%>
-<%--                                        <% if(sceneFilter != null && sceneFilter.getActorsCharacters() != null) { %>--%>
-<%--                                           value="<%=sceneFilter.getActorsCharacters()%>"--%>
-<%--                                        <% } %>--%>
-<%--                                    >--%>
-<%--                                </div>--%>
-<%--                                <div class="mb-5">--%>
-<%--                                    <label>Auteur :</label>--%>
-<%--                                    <select id="authors" name="authorId" class="form-select"--%>
-<%--                                            data-control="select2" data-placeholder="Auteur"--%>
-<%--                                            data-allow-clear="true">--%>
-<%--                                        <option value="" >--Auteurs--</option>--%>
-<%--                                        <% for (Author author : sceneForm.getAuthors()--%>
-<%--                                        ) { %>--%>
-<%--                                        <option value="<%= author.getId() %>"--%>
-<%--                                                <% if(sceneFilter != null && sceneFilter.getAuthorId() != null && sceneFilter.getAuthorId().equals(author.getId())) { %>--%>
-<%--                                                selected--%>
-<%--                                                <% } %>--%>
-<%--                                        > <%= author.getName() %> </option>--%>
-<%--                                        <% } %>--%>
-<%--                                    </select>--%>
-<%--                                </div>--%>
+                                <div class="row">
+                                    <label class="mb-5">Marques :</label>
 
-<%--                                <div class="row">--%>
-<%--                                    <div class="col-md-6 col-sm-12 mb-5">--%>
-<%--                                        <label>Plateau :</label>--%>
-<%--                                        <select id="movieSets" name="movieSetId" class="form-select"--%>
-<%--                                                data-control="select2" data-placeholder="Plateau"--%>
-<%--                                                data-allow-clear="true">--%>
-<%--                                            <option value="" >--Plateaux--</option>--%>
-<%--                                            <% for (MovieSet movieSet : sceneForm.getMovieSets()--%>
-<%--                                            ) { %>--%>
-<%--                                            <option value="<%= movieSet.getId() %>"--%>
-<%--                                                    <% if(sceneFilter != null && sceneFilter.getMovieSetId() != null && sceneFilter.getMovieSetId().equals(movieSet.getId())) { %>--%>
-<%--                                                    selected--%>
-<%--                                                    <% } %>--%>
-<%--                                            > <%= movieSet.getName() %> </option>--%>
-<%--                                            <% } %>--%>
-<%--                                        </select>--%>
-<%--                                    </div>--%>
-<%--                                    <div class="col-md-6 col-sm-12 mb-5">--%>
-<%--                                        <label>Status :</label>--%>
-<%--                                        <select id="status" name="statusId" class="form-select"--%>
-<%--                                                data-control="select2" data-placeholder="Status"--%>
-<%--                                                data-allow-clear="true">--%>
-<%--                                            <option value="" >--Status--</option>--%>
-<%--                                            <% for (SceneStatus status : sceneForm.getStatus()--%>
-<%--                                            ) { %>--%>
-<%--                                            <option value="<%= status.getId() %>"--%>
-<%--                                                    <% if(sceneFilter != null && sceneFilter.getStatusId() != null && sceneFilter.getStatusId().equals(status.getId())) { %>--%>
-<%--                                                    selected--%>
-<%--                                                    <% } %>--%>
-<%--                                            > <%= status.getName() %> </option>--%>
-<%--                                            <% } %>--%>
-<%--                                        </select>--%>
-<%--                                    </div>--%>
-<%--                                </div>--%>
-<%--                                <div class="row">--%>
-<%--                                    <div class="col-md-6 col-sm-12 mb-5">--%>
-<%--                                        <label>Debut ideal :</label>--%>
-<%--                                        <input type="time" name="idealStart" class="form-control"--%>
-<%--                                            <% if(sceneFilter != null && sceneFilter.getIdealStart() != null) { %>--%>
-<%--                                               value="<%=sceneFilter.getIdealStart()%>"--%>
-<%--                                            <% } %>--%>
-<%--                                        >--%>
-<%--                                    </div>--%>
-<%--                                    <div class="col-md-6 col-sm-12 mb-5">--%>
-<%--                                        <label>FIn ideal :</label>--%>
-<%--                                        <input type="time" name="idealEnd" class="form-control"--%>
-<%--                                            <% if(sceneFilter != null && sceneFilter.getIdealEnd() != null) { %>--%>
-<%--                                               value="<%=sceneFilter.getIdealEnd()%>"--%>
-<%--                                            <% } %>--%>
-<%--                                        >--%>
-<%--                                    </div>--%>
-<%--                                </div>--%>
-<%--                                <div class="row">--%>
-<%--                                    <div class="col-md-6 col-sm-12 mb-5">--%>
-<%--                                        <label>Duree minimum :</label>--%>
-<%--                                        <input type="time" name="strMinDuration" class="form-control"--%>
-<%--                                            <% if(sceneFilter != null && sceneFilter.getStrMinDuration() != null) { %>--%>
-<%--                                               value="<%=sceneFilter.getStrMinDuration()%>"--%>
-<%--                                            <% } %>--%>
-<%--                                        >--%>
-<%--                                    </div>--%>
-<%--                                    <div class="col-md-6 col-sm-12 mb-5">--%>
-<%--                                        <label>Duree maximum :</label>--%>
-<%--                                        <input type="time" name="strMaxDuration" class="form-control"--%>
-<%--                                            <% if(sceneFilter != null && sceneFilter.getStrMaxDuration() != null) { %>--%>
-<%--                                               value="<%=sceneFilter.getStrMaxDuration()%>"--%>
-<%--                                            <% } %>--%>
-<%--                                        >--%>
-<%--                                    </div>--%>
-<%--                                </div>--%>
-<%--                                <button class="btn btn-secondary" type="reset">--%>
-<%--                                    Effacer--%>
-<%--                                </button>--%>
-<%--                                <button class="btn btn-primary" type="submit">--%>
-<%--                                    Filtrer--%>
-<%--                                </button>--%>
+                                        <% for (Brand brand: laptopForm.getBrands()) { %>
+                                    <div class="col-sm-3 mb-5">
+                                        <input class="form-check-input" type="checkbox" value="<%=brand.getId()%>" id="brand<%=brand.getId()%>" name="brands"
+                                                <% if(laptopFilter != null && laptopFilter.getBrands() != null) { %>
+                                                <% for (Long brandFilter: laptopFilter.getBrands()) { %>
+                                                <% if(brandFilter == brand.getId()) { %>
+                                               checked
+                                                <% } %>
+                                                <% } %>
+                                                <% } %>
+                                        />
+                                        <label class="form-check-label" for="brand<%=brand.getId()%>" >
+                                            <%=brand.getName()%>
+                                        </label>
+                                    </div>
+                                        <% } %>
 
-<%--                            </div>--%>
+                                </div>
+
+                                <div class="row">
+                                    <label class="mb-5">Processeurs :</label>
+
+                                    <% for (Cpu cpu: laptopForm.getCpus()) { %>
+                                    <div class="col-sm-3 mb-5">
+                                        <input class="form-check-input" type="checkbox" value="<%=cpu.getId()%>" id="cpu<%=cpu.getId()%>" name="cpus"
+                                                <% if(laptopFilter != null && laptopFilter.getCpus() != null) { %>
+                                                <% for (Long cpuFilter: laptopFilter.getCpus()) { %>
+                                                <% if(cpuFilter == cpu.getId()) { %>
+                                               checked
+                                                <% } %>
+                                                <% } %>
+                                                <% } %>
+                                        />
+                                        <label class="form-check-label" for="cpu<%=cpu.getId()%>" >
+                                            <%=cpu.getName()%>
+                                        </label>
+                                    </div>
+                                    <% } %>
+
+                                </div>
+
+                                <div class="row">
+                                    <label class="mb-5">Stockages :</label>
+
+                                    <% for (DriveType driveType: laptopForm.getDriveTypes()) { %>
+                                    <div class="col-sm-3 mb-5">
+                                        <input class="form-check-input" type="checkbox" value="<%=driveType.getId()%>" id="drive<%=driveType.getId()%>" name="drives"
+                                                <% if(laptopFilter != null && laptopFilter.getDrives() != null) { %>
+                                                <% for (Long driveFilter: laptopFilter.getDrives()) { %>
+                                                <% if(driveFilter == driveType.getId()) { %>
+                                               checked
+                                                <% } %>
+                                                <% } %>
+                                                <% } %>
+                                        />
+                                        <label class="form-check-label" for="drive<%=driveType.getId()%>" >
+                                            <%=driveType.getName()%>
+                                        </label>
+                                    </div>
+                                    <% } %>
+
+                                </div>
+
+                                <div class="row">
+                                    <label class="mb-5">Rams :</label>
+
+                                    <% for (RamType ramType: laptopForm.getRamTypes()) { %>
+                                    <div class="col-sm-3 mb-5">
+                                        <input class="form-check-input" type="checkbox" value="<%=ramType.getId()%>" id="ram<%=ramType.getId()%>" name="rams"
+                                                <% if(laptopFilter != null && laptopFilter.getRams() != null) { %>
+                                                <% for (Long ramFilter: laptopFilter.getRams()) { %>
+                                                <% if(ramFilter == ramType.getId()) { %>
+                                               checked
+                                                <% } %>
+                                                <% } %>
+                                                <% } %>
+                                        />
+                                        <label class="form-check-label" for="ram<%=ramType.getId()%>" >
+                                            <%=ramType.getName()%>
+                                        </label>
+                                    </div>
+                                    <% } %>
+
+                                </div>
+
+                                <div class="row">
+                                    <label class="mb-5">Ecrans :</label>
+
+                                    <% for (ScreenType screenType: laptopForm.getScreenTypes()) { %>
+                                    <div class="col-sm-3 mb-5">
+                                        <input class="form-check-input" type="checkbox" value="<%=screenType.getId()%>" id="screen<%=screenType.getId()%>" name="screens"
+                                                <% if(laptopFilter != null && laptopFilter.getScreens() != null) { %>
+                                                <% for (Long screenFilter: laptopFilter.getScreens()) { %>
+                                                <% if(screenFilter == screenType.getId()) { %>
+                                               checked
+                                                <% } %>
+                                                <% } %>
+                                                <% } %>
+                                        />
+                                        <label class="form-check-label" for="screen<%=screenType.getId()%>" >
+                                            <%=screenType.getName()%>
+                                        </label>
+                                    </div>
+                                    <% } %>
+
+                                </div>
 
 
-<%--                        </div>--%>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12 mb-5">
+                                        <label>Ram minimum :</label>
+                                        <input type="text" name="minRam" class="form-control"
+                                            <% if(laptopFilter != null && laptopFilter.getMinRam() != null) { %>
+                                               value="<%=laptopFilter.getMinRam()%>"
+                                            <% } %>
+                                        >
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 mb-5">
+                                        <label>Ram maximum :</label>
+                                        <input type="text" name="maxRam" class="form-control"
+                                            <% if(laptopFilter != null && laptopFilter.getMaxRam() != null) { %>
+                                               value="<%=laptopFilter.getMaxRam()%>"
+                                            <% } %>
+                                        >
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12 mb-5">
+                                        <label>Ecran minimum :</label>
+                                        <input type="text" name="minScreen" class="form-control"
+                                            <% if(laptopFilter != null && laptopFilter.getMinScreen() != null) { %>
+                                               value="<%=laptopFilter.getMinScreen()%>"
+                                            <% } %>
+                                        >
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 mb-5">
+                                        <label>Ecran maximum :</label>
+                                        <input type="text" name="maxScreen" class="form-control"
+                                            <% if(laptopFilter != null && laptopFilter.getMaxScreen() != null) { %>
+                                               value="<%=laptopFilter.getMaxScreen()%>"
+                                            <% } %>
+                                        >
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12 mb-5">
+                                        <label>Stockage minimum :</label>
+                                        <input type="text" name="minDrive" class="form-control"
+                                            <% if(laptopFilter != null && laptopFilter.getMinDrive() != null) { %>
+                                               value="<%=laptopFilter.getMinDrive()%>"
+                                            <% } %>
+                                        >
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 mb-5">
+                                        <label>Stockage maximum :</label>
+                                        <input type="text" name="maxDrive" class="form-control"
+                                            <% if(laptopFilter != null && laptopFilter.getMaxDrive() != null) { %>
+                                               value="<%=laptopFilter.getMaxDrive()%>"
+                                            <% } %>
+                                        >
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12 mb-5">
+                                        <label>Frequence CPU minimum :</label>
+                                        <input type="text" name="minCpu" class="form-control"
+                                            <% if(laptopFilter != null && laptopFilter.getMinCpu() != null) { %>
+                                               value="<%=laptopFilter.getMinCpu()%>"
+                                            <% } %>
+                                        >
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 mb-5">
+                                        <label>Frequence CPU maximum :</label>
+                                        <input type="text" name="maxCpu" class="form-control"
+                                            <% if(laptopFilter != null && laptopFilter.getMaxCpu() != null) { %>
+                                               value="<%=laptopFilter.getMaxCpu()%>"
+                                            <% } %>
+                                        >
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary" type="submit">
+                                    Filtrer
+                                </button>
+
+                            </div>
+
+
+                        </div>
                     </div>
                 </div>
             </form>
@@ -407,7 +495,6 @@
     <%@include file="/includes/scripts.jsp"%>
 
     <script>
-
 
         const error = "<%= request.getParameter("error") %>";
         console.log(error);
