@@ -79,7 +79,7 @@
                         form.addEventListener('submit', function(evnt) {
                             evnt.preventDefault();
                             const formData = new FormData(form);
-                            send(formData, "${pageContext.request.contextPath}/shops", "${pageContext.request.contextPath}/")
+                            send(formData, "${pageContext.request.contextPath}/shops", "${pageContext.request.contextPath}/shops")
                         });
                     </script>
                 </div>

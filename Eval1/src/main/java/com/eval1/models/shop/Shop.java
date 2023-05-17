@@ -2,6 +2,7 @@ package com.eval1.models.shop;
 
 import com.eval1.models.Role;
 import custom.springutils.model.HasId;
+import custom.springutils.model.HasName;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -18,13 +19,12 @@ import java.lang.String;
 @Setter
 @Entity
 @Table(name = "shop")
-public class Shop extends HasId {
+public class Shop extends HasName {
 
 
 	@ManyToOne
 	@JoinColumn(name = "role_id")
 	private Role role;
-	private String name;
 
 
 	public Shop(Integer roleId) {

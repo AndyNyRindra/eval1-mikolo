@@ -2,14 +2,10 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.eval1.models.Role" %>
 <%@ page import="com.eval1.models.shop.view.ShopInput" %>
-<%@ page import="com.eval1.models.shop.Shop" %>
 <%@include file="../includes/layouts/default/top.jsp"%>
-<%
-    List<Role> roles = (List<Role>) request.getAttribute("roles");
-    Shop shop = (Shop) request.getAttribute("shop");
-%>
+
 <head>
-    <title>Mikolo - Magasins</title>
+    <title>Mikolo - Marques</title>
 </head>
 <!--begin::main-->
 <div class="d-flex flex-column flex-column-fluid">
@@ -18,11 +14,11 @@
         <div class="app-container container-xxl d-flex flex-stack">
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                 <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                    Modification de magasin
+                    Ajout de marque
                 </h1>
                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                     <li class="breadcrumb-item text-muted">
-                        Magasin
+                        Marque
                     </li>
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
@@ -50,29 +46,12 @@
                         <div class="mb-5">
                             <label>Nom :</label>
                             <input type="text" name="name" class="form-control" required
-                            value="<%=shop.getName()%>"
+
                             >
                         </div>
-
-                        <div class="mb-5">
-                            <label>Role :</label>
-                            <select name="roleId" class="form-select"
-                                    data-control="select2" data-placeholder="Role"
-                                    data-allow-clear="true" required>
-                                <option value="" >--Roles--</option>
-                                <% for (Role role : roles
-                                ) { %>
-                                <option value="<%= role.getId() %>"
-                                <% if (shop != null && shop.getRole() != null && shop.getRole().getId().equals(role.getId())) { %>
-                                        selected
-                                <% } %>
-                                > <%= role.getName() %> </option>
-                                <% } %>
-                            </select>
-                        </div>
-
                         <p>
-                            <input type="submit" value="Modifier" class="btn btn-primary">
+                            <input type="reset" value="Effacer" class="btn btn-reset">
+                            <input type="submit" value="Ajouter" class="btn btn-primary">
                         </p>
                     </form>
                     <%@include file="/includes/scripts.jsp"%>
@@ -82,7 +61,7 @@
                         form.addEventListener('submit', function(evnt) {
                             evnt.preventDefault();
                             const formData = new FormData(form);
-                            send(formData, "${pageContext.request.contextPath}/shops/<%=shop.getId()%>", "${pageContext.request.contextPath}/shops")
+                            send(formData, "${pageContext.request.contextPath}/brands", "${pageContext.request.contextPath}/brands")
                         });
                     </script>
                 </div>

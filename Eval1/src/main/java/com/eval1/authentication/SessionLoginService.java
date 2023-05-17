@@ -57,8 +57,8 @@ public class SessionLoginService<E extends LoginEntity, R extends LoginRepo<E>> 
     }
 
     public boolean logout(String placeholder) {
-        if(session.getAttribute(sessionName) == null) return false;
-        session.removeAttribute(sessionName);
+        if(session.getAttribute("connected") == null) return false;
+        session.removeAttribute("connected");
         session.removeAttribute(placeholder);
         return true;
     }

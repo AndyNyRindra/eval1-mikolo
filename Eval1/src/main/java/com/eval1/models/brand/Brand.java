@@ -1,4 +1,4 @@
-package com.eval1.models;
+package com.eval1.models.brand;
 
 import custom.springutils.model.HasId;
 import custom.springutils.model.HasName;
@@ -17,8 +17,6 @@ import java.lang.Integer;
 @Getter
 @Setter
 @Entity
-@Table(name = "role")
-public class Role extends HasName {
-
-
+@Table(name = "brand")
+public class Brand extends HasName {
 }
