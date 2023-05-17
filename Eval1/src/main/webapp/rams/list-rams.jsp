@@ -5,20 +5,22 @@
 <%@ page import="com.eval1.models.Role" %>
 <%@ page import="com.eval1.models.brand.Brand" %>
 <%@ page import="com.eval1.models.brand.BrandFilter" %>
+<%@ page import="com.eval1.models.ram.RamType" %>
+<%@ page import="com.eval1.models.ram.RamTypeFilter" %>
 <%@include file="../includes/layouts/default/top.jsp"%>
 <%
-    ListResponse brands = (ListResponse) request.getAttribute("brands");
-    List<Brand> brandList = (List<Brand>) brands.getElements();
+    ListResponse rams = (ListResponse) request.getAttribute("ramTypes");
+    List<RamType> ramTypes = (List<RamType>) rams.getElements();
     Integer requiredPages = (Integer) request.getAttribute("requiredPages");
     Integer pageNumber = (Integer) request.getAttribute("page");
-    BrandFilter brandFilter = (BrandFilter) request.getAttribute("brandFilter");
+    RamTypeFilter ramTypeFilter = (RamTypeFilter) request.getAttribute("ramTypeFilter");
     String filters = "";
-    if (brandFilter != null) {
-        filters = brandFilter.getFilterConditions();
+    if (ramTypeFilter != null) {
+        filters = ramTypeFilter.getFilterConditions();
     }
 %>
 <head>
-    <title>Mikolo - Marques</title>
+    <title>Mikolo - Rams</title>
 </head>
 <!--begin::main-->
 <div class="d-flex flex-column flex-column-fluid">
@@ -27,11 +29,11 @@
         <div class="app-container container-xxl d-flex flex-stack">
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                 <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                    Marques
+                    Types de rams
                 </h1>
                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                     <li class="breadcrumb-item text-muted">
-                        Marques
+                        Types de rams
                     </li>
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
@@ -53,8 +55,8 @@
                 <div class="card-header align-items-center py-0 gap-2">
                     <div class="card-toolbar flex-row-fluid justify-content-end gap-5" data-select2-id="select2-data-123-mzxj">
                         <!--begin::Add product-->
-                        <a href="${pageContext.request.contextPath}/brands/create" class="btn btn-success">
-                            Ajouter une marque
+                        <a href="${pageContext.request.contextPath}/rams/create" class="btn btn-success">
+                            Ajouter un type de ram
                         </a>
                         <!--end::Add product-->
                     </div>
@@ -66,8 +68,8 @@
                         <form method="get">
                             <div class="mb-5">
                                 <input id="name" type="text" name="name" class="form-control" placeholder="Nom..."
-                                    <% if (brandFilter != null && brandFilter.getName() != null) { %>
-                                       value="<%=brandFilter.getName().replace("%", "")%>"
+                                    <% if (ramTypeFilter != null && ramTypeFilter.getName() != null) { %>
+                                       value="<%=ramTypeFilter.getName().replace("%", "")%>"
                                     <% } %>
                                 >
                             </div>
@@ -87,19 +89,19 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <% for(Brand brand : brandList) { %>
+                        <% for(RamType ramType : ramTypes) { %>
                         <tr>
-                            <td><%=brand.getId()%></td>
+                            <td><%=ramType.getId()%></td>
                             <td>
-                                <%= brand.getName() %>
+                                <%= ramType.getName() %>
                             </td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/brands/update/<%= brand.getId() %>" >
+                                <a href="${pageContext.request.contextPath}/rams/update/<%= ramType.getId() %>" >
                                     <i class="la la-pencil text-warning fs-2x"></i>
                                 </a>
                             </td>
                             <td>
-                                <a href="#" onclick="onDeleteButtonClicked(<%= brand.getId() %>, '<%= brand.getName() %>', '${pageContext.request.contextPath}/brands/delete/<%=brand.getId()%>', 'la marque')"
+                                <a href="#" onclick="onDeleteButtonClicked(<%= ramType.getId() %>, '<%= ramType.getName() %>', '${pageContext.request.contextPath}/rams/delete/<%=ramType.getId()%>', 'le type de ram')"
                                    data-bs-target="#delete-modal" data-bs-toggle="modal">
                                     <i class="la la-trash text-danger fs-2x"></i>
                                 </a>
@@ -115,7 +117,7 @@
                                 <% } else { %>
                                 class="page-item previous"
                                 <% } %>
-                        ><a href="${pageContext.request.contextPath}/brands?<%=filters%>&page=<%=pageNumber-1%>" class="page-link"><i class="previous"></i></a></li>
+                        ><a href="${pageContext.request.contextPath}/rams?<%=filters%>&page=<%=pageNumber-1%>" class="page-link"><i class="previous"></i></a></li>
                         <% for (int i = 1 ; i <= requiredPages ; i++) { %>
                         <li
                                 <% if (pageNumber == i) { %>
@@ -123,7 +125,7 @@
                                 <% } else { %>
                                 class="page-item"
                                 <% } %>
-                        ><a href="${pageContext.request.contextPath}/brands?<%=filters%>&page=<%=i%>" class="page-link"><%=i%></a></li>
+                        ><a href="${pageContext.request.contextPath}/rams?<%=filters%>&page=<%=i%>" class="page-link"><%=i%></a></li>
                         <% } %>
                         <li
                                 <% if (pageNumber == requiredPages) { %>
@@ -131,7 +133,7 @@
                                 <% } else { %>
                                 class="page-item next"
                                 <% } %>
-                        ><a href="${pageContext.request.contextPath}/brands?<%=filters%>&page=<%=pageNumber+1%>"  class="page-link"><i class="next"></i></a></li>
+                        ><a href="${pageContext.request.contextPath}/rams?<%=filters%>&page=<%=pageNumber+1%>"  class="page-link"><i class="next"></i></a></li>
                     </ul>
 
                 </div>
