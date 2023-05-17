@@ -58,6 +58,7 @@
 
 
                         <p>
+                            <input type="reset" value="Réinitialiser" class="btn btn-reset">
                             <input type="submit" value="Modifier" class="btn btn-primary">
                         </p>
                     </form>
