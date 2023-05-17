@@ -49,12 +49,12 @@
                 data-kt-menu="true" data-kt-menu-expand="false">
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                     <span class="menu-link">
-                        <span class="menu-title">Menu 1</span>
+                        <span class="menu-title">Magasin</span>
                         <span class="menu-arrow"></span>
                     </span>
                     <div class="menu-sub menu-sub-accordion">
                         <div class="menu-item">
-                            <a href="${pageContext.request.contextPath}/movies" class="menu-link">
+                            <a href="${pageContext.request.contextPath}/shops" class="menu-link">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -62,11 +62,11 @@
                             </a>
                         </div>
                         <div class="menu-item">
-                            <a href="${pageContext.request.contextPath}/movies/loadForm" class="menu-link">
+                            <a href="${pageContext.request.contextPath}/shops/create" class="menu-link">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Creer</span>
+                                <span class="menu-title">Créer</span>
                             </a>
                         </div>
                     </div>

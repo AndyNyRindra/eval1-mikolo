@@ -4,7 +4,7 @@
 <!--begin::Head-->
 
 <head>
-  <title>Scenema - Connexion</title>
+  <title>Mikolo - Connexion</title>
   <meta charset="utf-8"/>
   <!--begin::Fonts(mandatory for all pages)-->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"/>

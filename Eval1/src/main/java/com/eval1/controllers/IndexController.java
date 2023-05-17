@@ -14,7 +14,7 @@ public class IndexController {
 
     @GetMapping("/")
     public String index() throws UnauthorizedException {
-        securityManager.isAdmin();
+        securityManager.isConnected();
         return "index";
     }
 }

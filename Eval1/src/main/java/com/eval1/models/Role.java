@@ -9,17 +9,16 @@ import lombok.Setter;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-import java.lang.Integer;
 import java.lang.String;
+import java.lang.Integer;
 
 
 @Getter
 @Setter
 @Entity
-@Table(name = "shop")
-public class Shop extends HasId {
+@Table(name = "role")
+public class Role extends HasId {
 
-	private Integer roleId;
 	private String name;
 
 }

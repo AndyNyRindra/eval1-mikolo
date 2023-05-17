@@ -1,7 +1,7 @@
 package com.eval1.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.eval1.models.Shop;
+import com.eval1.models.shop.Shop;
 
 import java.util.List;
 

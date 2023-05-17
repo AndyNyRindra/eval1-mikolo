@@ -1,9 +1,9 @@
 package com.eval1.models;
 
+import com.eval1.models.shop.Shop;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import custom.springutils.LoginEntity;
 import custom.springutils.exception.CustomException;
-import custom.springutils.model.HasId;
 import custom.springutils.model.HasName;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -11,7 +11,6 @@ import lombok.Setter;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.lang.String;
-import java.lang.Integer;
 
 import static com.eval1.util.RegexUtil.isEmailValid;
 
@@ -43,7 +42,7 @@ public class Seller extends HasName implements LoginEntity, LoggedUser {
 	}
 
 	public Boolean isSimpleSeller() {
-		return getShop().getRoleId() == 0;
+		return getShop().getRole().getId() == 0;
 	}
 
 }
