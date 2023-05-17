@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.eval1.models.laptop.Laptop" %>
 <%@ page import="com.eval1.models.laptop.LaptopFilter" %>
+<%@ page import="com.eval1.models.laptop.view.LaptopForm" %>
 
 <%@include file="../includes/layouts/default/top.jsp"%>
 <%
@@ -9,6 +10,7 @@
     List<Laptop> laptopList = (List<Laptop>) laptops.getElements();
     Integer requiredPages = (Integer) request.getAttribute("requiredPages");
     Integer pageNumber = (Integer) request.getAttribute("page");
+    LaptopForm laptopForm = (LaptopForm) request.getAttribute("laptopForm");
     LaptopFilter laptopFilter = (LaptopFilter) request.getAttribute("laptopFilter");
     String filters = "";
     if (laptopFilter != null) {
@@ -101,13 +103,13 @@
                                                 data-control="select2" data-placeholder="Colonne"
                                                 data-allow-clear="true">
                                             <option value="">--Colonne--</option>
-<%--                                            <% for (String field: sceneForm.getFields().keySet()) { %>--%>
-<%--                                            <option value="<%=field%>"--%>
-<%--                                                    <% if(sceneFilter != null && sceneFilter.getField() != null && sceneFilter.getField().equals(field)) { %>--%>
-<%--                                                    selected--%>
-<%--                                                    <% } %>--%>
-<%--                                            ><%=sceneForm.getFields().get(field)%></option>--%>
-<%--                                            <% } %>--%>
+                                            <% for (String field: laptopForm.getFields().keySet()) { %>
+                                            <option value="<%=field%>"
+                                                    <% if(laptopFilter != null && laptopFilter.getField() != null && laptopFilter.getField().equals(field)) { %>
+                                                    selected
+                                                    <% } %>
+                                            ><%=laptopForm.getFields().get(field)%></option>
+                                            <% } %>
                                         </select>
                                     </div>
                                     <div class="col-md-5 col-sm-12">
@@ -115,13 +117,13 @@
                                                 data-control="select2" data-placeholder="Ordre"
                                                 data-allow-clear="true">
                                             <option value="">--Ordre--</option>
-<%--                                            <% for (String method: sceneForm.getMethods().keySet()) { %>--%>
-<%--                                            <option value="<%=method%>"--%>
-<%--                                                    <% if(sceneFilter != null && sceneFilter.getMethod() != null && sceneFilter.getMethod().toString() == method) { %>--%>
-<%--                                                    selected--%>
-<%--                                                    <% } %>--%>
-<%--                                            ><%=sceneForm.getMethods().get(method)%></option>--%>
-<%--                                            <% } %>--%>
+                                            <% for (String method: laptopForm.getMethods().keySet()) { %>
+                                            <option value="<%=method%>"
+                                                    <% if(laptopFilter != null && laptopFilter.getMethod() != null && laptopFilter.getMethod().toString() == method) { %>
+                                                    selected
+                                                    <% } %>
+                                            ><%=laptopForm.getMethods().get(method)%></option>
+                                            <% } %>
                                         </select>
                                     </div>
                                     <div class="col-md-2 col-sm-2">
