@@ -22,9 +22,9 @@ public class SecurityManager {
         check("admin");
     }
 
-    public void isAuthor() throws UnauthorizedException {
+    public void isSeller() throws UnauthorizedException {
         isConnected();
-        check("author");
+        check("seller");
     }
 
     private void check(String role) throws UnauthorizedException {

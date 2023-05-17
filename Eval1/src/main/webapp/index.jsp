@@ -41,6 +41,11 @@
                     <canvas id="pie-chart" class="mh-400px"></canvas>
                     <canvas id="stacked-bar" class="mh-400px"></canvas>
                     <canvas id="radar-chart" class="mh-400px"></canvas>
+                    <% if (session.getAttribute("admin") != null) { %>
+                    0
+                    <% } else { %>
+                    1
+                    <% } %>
                     <%@include file="/includes/scripts.jsp"%>
                 </div>
             </div>
