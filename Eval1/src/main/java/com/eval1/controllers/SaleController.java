@@ -1,10 +1,15 @@
 package com.eval1.controllers;
 
+import com.eval1.models.ActionType;
 import com.eval1.models.drive.DriveFilter;
+import com.eval1.models.purchase.Purchase;
+import com.eval1.models.purchase.PurchaseInput;
 import com.eval1.models.sale.SaleFilter;
+import com.eval1.models.sale.SaleInput;
 import com.eval1.models.seller.Seller;
 import com.eval1.models.shop.Shop;
 import com.eval1.security.SecurityManager;
+import com.eval1.services.LaptopService;
 import com.eval1.services.SaleDetailsService;
 import com.eval1.services.ShopService;
 import custom.springutils.controller.CrudWithFK;
@@ -13,6 +18,7 @@ import com.eval1.services.SaleService;
 import custom.springutils.util.ListResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -33,6 +39,9 @@ public class SaleController  {
 
     @Autowired
     private HttpSession session;
+
+    @Autowired
+    private LaptopService laptopService;
 
     @GetMapping
     public ModelAndView list(ModelAndView modelAndView, SaleFilter saleFilter, @RequestParam(required = false) Integer page) throws Exception {
@@ -57,5 +66,34 @@ public class SaleController  {
         modelAndView.addObject("sale", sale);
         modelAndView.setViewName("sales/sheet-sale");
         return modelAndView;
+    }
+
+
+    @GetMapping("/create")
+    public ModelAndView create(ModelAndView model) throws Exception {
+        securityManager.isSeller();
+        model.addObject("laptops",laptopService.findAvailableByShopId( ((Seller) session.getAttribute("connected")).getShop().getId()));
+        model.addObject("actionType", new ActionType("Vente","sales"));
+        model.setViewName("purchases/create-purchase");
+        return model;
+    }
+
+    @PostMapping
+    public ResponseEntity<?> save(@ModelAttribute SaleInput saleInput) throws Exception {
+        securityManager.isSeller();
+        try {
+            Sale sale = saleInput.getSale();
+            Seller seller = (Seller) session.getAttribute("connected");
+            Shop shop = seller.getShop();
+            sale.setFK(shop);
+            saleService.create(sale);
+            return ResponseEntity.ok("success");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+
+        }
+
     }
 }

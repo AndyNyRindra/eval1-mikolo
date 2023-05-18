@@ -138,4 +138,7 @@ public class LaptopService extends CrudService<Laptop, LaptopRepo> {
         return conditions;
     }
 
+    public List<Laptop> findAvailableByShopId(Long id) {
+        return repo.findAvailableByShopId(id);
+    }
 }

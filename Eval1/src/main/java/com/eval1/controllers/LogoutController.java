@@ -21,10 +21,9 @@ public class LogoutController {
     @GetMapping({"/logout"})
     public String logout(HttpSession session) throws UnauthorizedException {
         securityManager.isConnected();
-        Seller obj = (Seller) session.getAttribute("connected");
-        if (obj.isSimpleSeller())
+        if (session.getAttribute("seller") != null)
             this.sellerLoginService.logout("seller");
-        else
+        else if (session.getAttribute("admin") != null)
             this.sellerLoginService.logout("admin");
         return "redirect:/login";
     }
