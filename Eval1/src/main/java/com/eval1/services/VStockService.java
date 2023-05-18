@@ -7,8 +7,8 @@ import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Service;
 import java.lang.Integer;
 import java.lang.Double;
-import java.lang.Long;
-import com.eval1.models.VStock;
+
+import com.eval1.models.stock.VStock;
 
 
 @Service
