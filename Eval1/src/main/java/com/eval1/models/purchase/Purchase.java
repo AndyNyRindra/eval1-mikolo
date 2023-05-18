@@ -1,5 +1,6 @@
 package com.eval1.models.purchase;
 
+import com.eval1.models.laptop.Laptop;
 import com.eval1.models.shop.Shop;
 import custom.springutils.model.HasFK;
 import custom.springutils.exception.CustomException;
@@ -9,6 +10,7 @@ import lombok.Setter;
 
 import java.lang.String;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,6 +29,26 @@ public class Purchase extends HasFK<Shop> {
 
     @Transient
     private List<PurchaseDetails> purchaseDetails;
+
+
+    public Purchase(List<Long> laptopsId, List<Double> quantities) throws CustomException {
+        if (laptopsId.size() != quantities.size()) {
+            throw new CustomException("Les listes de laptops et de quantités doivent être de même taille");
+        }
+        setPurchaseDetails(new ArrayList<>());
+        for (int i = 0; i < laptopsId.size(); i++) {
+            PurchaseDetails purchaseDetails = new PurchaseDetails();
+            Laptop laptop = new Laptop();
+            laptop.setId(laptopsId.get(i));
+            purchaseDetails.setLaptop(laptop);
+            purchaseDetails.setQuantity(quantities.get(i));
+            this.purchaseDetails.add(purchaseDetails);
+        }
+    }
+
+    public Purchase() {
+
+    }
 
 
     @Override
