@@ -1,7 +1,8 @@
 <%@ page import="com.eval1.models.LoggedUser" %>
+<%@ page import="com.eval1.models.seller.Seller" %>
 
 <%
-    LoggedUser user = (LoggedUser) session.getAttribute("connected");
+    Seller user = (Seller) session.getAttribute("connected");
 %>
 
 <div id="kt_app_header" class="app-header " >
@@ -44,7 +45,7 @@
 
                     <!--begin::User menu-->
                     <div class="app-navbar-item ms-1 ms-md-3" id="kt_header_user_menu_toggle" >
-                        <span style="margin-right: 10px" ><%= user.getName() %></span>
+                        <span style="margin-right: 10px" ><%= user.getName() %> - <%= user.getShop().getName() %></span>
                         <!--begin::Menu wrapper-->
                         <div class="cursor-pointer symbol symbol-30px symbol-md-40px"
                              data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent"

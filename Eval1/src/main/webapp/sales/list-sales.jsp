@@ -6,7 +6,6 @@
 <%@ page import="com.eval1.models.shop.Shop" %>
 <%@include file="../includes/layouts/default/top-seller.jsp"%>
 <%
-    Shop shop = (Shop) request.getAttribute("shop");
     ListResponse sales = (ListResponse) request.getAttribute("sales");
     List<Sale> saleList = (List<Sale>) sales.getElements();
     Integer requiredPages = (Integer) request.getAttribute("requiredPages");
@@ -117,6 +116,11 @@
                             </td>
                             <td>
                                 <%= sale.getAmount() %> Ar
+                            </td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/sales/<%= sale.getId() %>" >
+                                    <i class="la la-eye text-primary fs-2x"></i>
+                                </a>
                             </td>
 
                         </tr>

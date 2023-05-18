@@ -5,6 +5,7 @@ import com.eval1.models.sale.SaleFilter;
 import com.eval1.models.seller.Seller;
 import com.eval1.models.shop.Shop;
 import com.eval1.security.SecurityManager;
+import com.eval1.services.SaleDetailsService;
 import com.eval1.services.ShopService;
 import custom.springutils.controller.CrudWithFK;
 import com.eval1.models.sale.Sale;
@@ -13,10 +14,7 @@ import custom.springutils.util.ListResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -31,6 +29,9 @@ public class SaleController  {
     private SaleService saleService;
 
     @Autowired
+    private SaleDetailsService saleDetailsService;
+
+    @Autowired
     private HttpSession session;
 
     @GetMapping
@@ -41,10 +42,20 @@ public class SaleController  {
         ListResponse sales = saleService.search(saleFilter, connected.getShop().getId(), page);
         modelAndView.addObject("requiredPages", saleService.getRequiredPages(sales.getCount()));
         modelAndView.addObject("sales",sales);
-        modelAndView.addObject("shop",connected.getShop());
         modelAndView.addObject("page", page);
         if (saleFilter != null) modelAndView.addObject("saleFilter", saleFilter);
         modelAndView.setViewName("sales/list-sales");
+        return modelAndView;
+    }
+
+    @GetMapping("/{id}")
+    public ModelAndView details(ModelAndView modelAndView, @PathVariable Long id) throws Exception {
+        securityManager.isSeller();
+        Sale sale = saleService.findById(id);
+        ListResponse details = saleDetailsService.search(new Object(), id, null);
+        modelAndView.addObject("details",details);
+        modelAndView.addObject("sale", sale);
+        modelAndView.setViewName("sales/sheet-sale");
         return modelAndView;
     }
 }
