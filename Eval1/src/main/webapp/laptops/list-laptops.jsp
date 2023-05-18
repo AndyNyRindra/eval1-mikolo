@@ -437,6 +437,20 @@
                         </div>
 
                     </div>
+                    <div class="row">
+                        <div class="row mb-5">
+                            <div class="col-md-10 col-sm-10">
+                                <div class="scene-desc">
+                                    <div class="scene-desc-icon">
+                                        <i class="la la-dollar text-gray-900 fs-1"></i>
+                                    </div>
+                                    <div class="scene-desc-text">
+                                        <b>Acheté à:</b> <%=laptop.getPrice()%> Ar - <b>Vendu à:</b> <%=laptop.getSellingPrice()%> Ar
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-md-10 col-sm-10 mt-5">

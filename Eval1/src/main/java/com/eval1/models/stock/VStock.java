@@ -1,4 +1,4 @@
-package com.eval1.models;
+package com.eval1.models.stock;
 
 import custom.springutils.model.HasId;
 import jakarta.persistence.Entity;

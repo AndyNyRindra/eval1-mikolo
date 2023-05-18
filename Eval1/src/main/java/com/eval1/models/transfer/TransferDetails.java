@@ -1,4 +1,4 @@
-package com.eval1.models;
+package com.eval1.models.transfer;
 
 import com.eval1.models.laptop.Laptop;
 import custom.springutils.model.HasFK;
@@ -13,7 +13,6 @@ import jakarta.persistence.ManyToOne;
 
 import java.lang.Double;
 import java.lang.Integer;
-import com.eval1.models.Transfer;
 
 
 @Getter
@@ -35,5 +34,12 @@ public class TransferDetails extends HasFK<Transfer> {
             throw new CustomException("Transfer is null");
         }
         setTransferId(fk.getId().intValue());
+    }
+
+    public void setQuantity(Double quantity) throws CustomException {
+        if (quantity == null || quantity <= 0) {
+            throw new CustomException("La quantité est nulle ou négative");
+        }
+        this.quantity = quantity;
     }
 }

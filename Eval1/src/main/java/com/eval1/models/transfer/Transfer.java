@@ -1,4 +1,4 @@
-package com.eval1.models;
+package com.eval1.models.transfer;
 
 import com.eval1.models.shop.Shop;
 import custom.springutils.model.HasId;

@@ -1,7 +1,9 @@
-package com.eval1.models;
+package com.eval1.models.stock;
 
 import com.eval1.models.purchase.PurchaseDetails;
+import com.eval1.models.receipt.ReceiptDetails;
 import com.eval1.models.shop.Shop;
+import com.eval1.models.transfer.TransferDetails;
 import custom.springutils.exception.CustomException;
 import custom.springutils.model.HasFK;
 import jakarta.persistence.Entity;
@@ -55,6 +57,14 @@ public class Movement extends HasFK<Shop> {
         setShopId(shopId);
         setQuantity(transferDetails.getQuantity());
         setLaptopId(transferDetails.getLaptop().getId().intValue());
+    }
+
+    public Movement(ReceiptDetails receiptDetails, Integer shopId, Timestamp date) throws CustomException {
+        setDate(date);
+        setMovementTypeId(0);
+        setShopId(shopId);
+        setQuantity(receiptDetails.getQuantity());
+        setLaptopId(receiptDetails.getTransferDetails().getLaptop().getId().intValue());
     }
 
     public void setQuantity(Double quantity) throws CustomException {

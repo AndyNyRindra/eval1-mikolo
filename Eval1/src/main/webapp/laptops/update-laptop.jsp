@@ -191,7 +191,7 @@
                         form.addEventListener('submit', function(evnt) {
                             evnt.preventDefault();
                             const formData = new FormData(form);
-                            send(formData, "${pageContext.request.contextPath}/laptops/<%=laptop.getId()%>", "${pageContext.request.contextPath}/shops")
+                            send(formData, "${pageContext.request.contextPath}/laptops/<%=laptop.getId()%>", "${pageContext.request.contextPath}/laptops")
                         });
                     </script>
                 </div>
