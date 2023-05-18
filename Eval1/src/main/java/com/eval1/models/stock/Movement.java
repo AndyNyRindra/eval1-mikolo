@@ -2,6 +2,7 @@ package com.eval1.models.stock;
 
 import com.eval1.models.purchase.PurchaseDetails;
 import com.eval1.models.receipt.ReceiptDetails;
+import com.eval1.models.sale.SaleDetails;
 import com.eval1.models.shop.Shop;
 import com.eval1.models.transfer.TransferDetails;
 import custom.springutils.exception.CustomException;
@@ -65,6 +66,14 @@ public class Movement extends HasFK<Shop> {
         setShopId(shopId);
         setQuantity(receiptDetails.getQuantity());
         setLaptopId(receiptDetails.getTransferDetails().getLaptop().getId().intValue());
+    }
+
+    public Movement(SaleDetails saleDetails, Integer shopId, Timestamp date) throws CustomException {
+        setDate(date);
+        setMovementTypeId(10);
+        setShopId(shopId);
+        setQuantity(saleDetails.getQuantity());
+        setLaptopId(saleDetails.getLaptop().getId().intValue());
     }
 
     public void setQuantity(Double quantity) throws CustomException {
