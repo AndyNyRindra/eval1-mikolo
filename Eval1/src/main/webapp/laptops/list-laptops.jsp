@@ -352,6 +352,44 @@
                                         >
                                     </div>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12 mb-5">
+                                        <label>Prix d'achat minimum :</label>
+                                        <input type="text" name="mineq_price" class="form-control"
+                                            <% if(laptopFilter != null && laptopFilter.getMineq_price() != null) { %>
+                                               value="<%=laptopFilter.getMineq_price()%>"
+                                            <% } %>
+                                        >
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 mb-5">
+                                        <label>Prix d'achat maximum :</label>
+                                        <input type="text" name="maxCpu" class="form-control"
+                                            <% if(laptopFilter != null && laptopFilter.getMaxeq_price() != null) { %>
+                                               value="<%=laptopFilter.getMaxeq_price()%>"
+                                            <% } %>
+                                        >
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12 mb-5">
+                                        <label>Prix de vente minimum :</label>
+                                        <input type="text" name="mineq_sellingPrice" class="form-control"
+                                            <% if(laptopFilter != null && laptopFilter.getMineq_sellingPrice() != null) { %>
+                                               value="<%=laptopFilter.getMineq_sellingPrice()%>"
+                                            <% } %>
+                                        >
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 mb-5">
+                                        <label>Prix de vente maximum :</label>
+                                        <input type="text" name="maxeq_sellingPrice" class="form-control"
+                                            <% if(laptopFilter != null && laptopFilter.getMaxeq_sellingPrice() != null) { %>
+                                               value="<%=laptopFilter.getMaxeq_sellingPrice()%>"
+                                            <% } %>
+                                        >
+                                    </div>
+                                </div>
                                 <button class="btn btn-primary" type="submit">
                                     Filtrer
                                 </button>

@@ -49,6 +49,11 @@ public class LaptopFilter extends FilterObject {
     @IgnoreMapping
     List<Long> screens;
 
+    private Double mineq_price;
+    private Double maxeq_price;
+    private Double mineq_sellingPrice;
+    private Double maxeq_sellingPrice;
+
     public StringBuilder appendConditions(StringBuilder stringBuilder, String name, List<Long> values){
         for (Long l : values
         ) {
@@ -109,6 +114,14 @@ public class LaptopFilter extends FilterObject {
         filterConditions.append("&maxCpu");
         if (getMaxCpu() != null) {
             filterConditions.append("=" + getMaxCpu());
+        }
+        filterConditions.append("&mineq_price");
+        if (getMineq_price() != null) {
+            filterConditions.append("=" + getMineq_price());
+        }
+        filterConditions.append("&maxeq_price");
+        if (getMaxeq_price() != null) {
+            filterConditions.append("=" + getMaxeq_price());
         }
         return filterConditions.toString().replace("%", "");
     }

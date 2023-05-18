@@ -168,6 +168,17 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="col-sm-6 mb-5">
+                                <label>Prix :</label>
+                                <input type="text" name="price" class="form-control" required value="<%=laptop.getPrice()%>">
+                            </div>
+                            <div class="col-sm-6 mb-5">
+                                <label>Pourcentage vente :</label>
+                                <input type="text" name="sellingPercent" class="form-control" required value="<%=laptop.getSellingPercent()%>">
+                            </div>
+                        </div>
+
                         <p>
                             <input type="reset" value="Réinitialiser" class="btn btn-reset">
                             <input type="submit" value="Modifier" class="btn btn-primary">

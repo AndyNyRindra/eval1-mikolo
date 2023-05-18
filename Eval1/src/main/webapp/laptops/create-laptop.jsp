@@ -152,6 +152,17 @@
               </div>
             </div>
 
+            <div class="row">
+              <div class="col-sm-6 mb-5">
+                <label>Prix :</label>
+                <input type="text" name="price" class="form-control" required>
+              </div>
+              <div class="col-sm-6 mb-5">
+                <label>Pourcentage vente :</label>
+                <input type="text" name="sellingPercent" class="form-control" required>
+              </div>
+            </div>
+
             <p>
               <input type="reset" value="Effacer" class="btn btn-reset">
               <input type="submit" value="Ajouter" class="btn btn-primary">

@@ -64,6 +64,11 @@ public class Laptop extends HasId {
 	@JoinColumn(name = "brand_id")
 	private Brand brand;
 
+	private Double price;
+	private Double sellingPercent;
+
+	private Double sellingPrice;
+
 	public Laptop() {
 
 	}
@@ -84,5 +89,25 @@ public class Laptop extends HasId {
 		if (driverSize < 0)
 			throw new CustomException("La valeur du disque doit être positive");
 		this.driverSize = driverSize;
+	}
+
+	public void setPrice(Double price) throws CustomException {
+		if (price < 0)
+			throw new CustomException("Le prix doit être positif");
+		this.price = price;
+	}
+
+	public void setSellingPercent(Double sellingPercent) throws CustomException {
+		if (sellingPercent < 0 || sellingPercent > 100)
+			throw new CustomException("Le pourcentage de vente doit être positif et inférieur à 100");
+		this.sellingPercent = sellingPercent;
+		if (getPrice() != null)
+			setSellingPrice(getPrice() * (1 + sellingPercent / 100));
+	}
+
+	public void setSellingPrice(Double sellingPrice) throws CustomException {
+		if (sellingPrice < 0)
+			throw new CustomException("Le prix de vente doit être positif");
+		this.sellingPrice = sellingPrice;
 	}
 }
