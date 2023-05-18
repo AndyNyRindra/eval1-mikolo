@@ -1,9 +1,9 @@
 package com.eval1.services;
 
-import com.eval1.models.Movement;
+import com.eval1.models.laptop.Laptop;
+import com.eval1.models.stock.Movement;
 import com.eval1.models.purchase.PurchaseDetails;
 import com.eval1.models.shop.Shop;
-import com.eval1.repositories.PurchaseDetailsRepo;
 import custom.springutils.exception.CustomException;
 import custom.springutils.service.CrudServiceWithFK;
 import jakarta.persistence.EntityManager;
@@ -28,6 +28,9 @@ public class PurchaseService extends CrudServiceWithFK<Purchase, Shop, ShopRepo,
 
     @Autowired
     private MovementService movementService;
+
+    @Autowired
+    private LaptopService laptopService;
 
     @Autowired
 
@@ -80,12 +83,16 @@ public class PurchaseService extends CrudServiceWithFK<Purchase, Shop, ShopRepo,
             Purchase toSave = super.create(obj);
             for (PurchaseDetails purchaseDetails : obj.getPurchaseDetails()) {
                 purchaseDetails.setPurchaseId(toSave.getId().intValue());
+                Laptop laptop = laptopService.findById(purchaseDetails.getLaptop().getId());
+                purchaseDetails.setLaptop(laptop);
+                purchaseDetails.setAmount();
                 Movement movement = new Movement(purchaseDetails, obj.getShop().getId().intValue(), obj.getDate());
                 movementService.create(movement);
                 purchaseDetailsService.create(purchaseDetails);
             }
-            toSave.setPurchaseDetails(obj.getPurchaseDetails());
-            return toSave;
+            obj.setAmount();
+            return super.create(obj);
+
         }
         return null;
     }
