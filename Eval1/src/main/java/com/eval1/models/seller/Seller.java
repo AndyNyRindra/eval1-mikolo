@@ -1,5 +1,6 @@
-package com.eval1.models;
+package com.eval1.models.seller;
 
+import com.eval1.models.LoggedUser;
 import com.eval1.models.shop.Shop;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import custom.springutils.LoginEntity;

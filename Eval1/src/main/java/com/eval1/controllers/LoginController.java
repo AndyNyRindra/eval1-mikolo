@@ -1,6 +1,6 @@
 package com.eval1.controllers;
 
-import com.eval1.models.Seller;
+import com.eval1.models.seller.Seller;
 import com.eval1.services.AdminLoginService;
 import com.eval1.services.SellerLoginService;
 import com.eval1.services.SellerService;

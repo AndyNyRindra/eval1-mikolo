@@ -1,9 +1,8 @@
 package com.eval1.services;
 
 import com.eval1.authentication.SessionLoginService;
-import com.eval1.models.Seller;
+import com.eval1.models.seller.Seller;
 import com.eval1.repositories.SellerRepo;
-import custom.springutils.AuthenticatedDetails;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 

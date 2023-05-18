@@ -4,9 +4,7 @@ import com.eval1.repositories.SellerRepo;
 import custom.springutils.service.CrudService;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Service;
-import java.lang.String;
-import java.lang.Integer;
-import com.eval1.models.Seller;
+import com.eval1.models.seller.Seller;
 
 
 @Service
@@ -20,5 +18,10 @@ public class SellerService extends CrudService<Seller, SellerRepo> {
     public Class<Seller> getEntityClass() {
         return Seller.class;
     }
+
+    public Integer getRequiredPages (Long count) {
+        return (int) Math.ceil((double)count / (double)getPageSize());
+    }
+
 
 }
