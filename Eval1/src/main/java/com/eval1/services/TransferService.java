@@ -73,7 +73,7 @@ public class TransferService extends CrudService<Transfer, TransferRepo> {
                 transferDetails.setTransferId(toSave.getId().intValue());
                 Laptop laptop = laptopService.findById(transferDetails.getLaptop().getId());
                 transferDetails.setLaptop(laptop);
-                transferDetails.setAmount();
+                transferDetails.setUnitPrice(laptop.getPrice());
                 Movement movement = new Movement(transferDetails, obj.getShopSender().getId().intValue(), obj.getDate());
                 movementService.create(movement);
                 transferDetailsService.create(transferDetails);
