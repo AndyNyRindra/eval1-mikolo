@@ -47,6 +47,14 @@ public class TransferController {
         return model;
     }
 
+    @GetMapping("/return/create")
+    public ModelAndView createReturn(ModelAndView model) throws Exception {
+        securityManager.isSeller();
+        model.addObject("laptops",laptopService.findAvailableByShopId( ((Seller) session.getAttribute("connected")).getShop().getId()));
+        model.setViewName("returns/create-return");
+        return model;
+    }
+
 
     @PostMapping
     public ResponseEntity<?> save(@ModelAttribute TransferInput transferInput) throws Exception {
