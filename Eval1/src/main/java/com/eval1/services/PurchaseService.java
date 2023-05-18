@@ -85,7 +85,7 @@ public class PurchaseService extends CrudServiceWithFK<Purchase, Shop, ShopRepo,
                 purchaseDetails.setPurchaseId(toSave.getId().intValue());
                 Laptop laptop = laptopService.findById(purchaseDetails.getLaptop().getId());
                 purchaseDetails.setLaptop(laptop);
-                purchaseDetails.setAmount();
+                purchaseDetails.setUnitPrice(laptop.getPrice());
                 Movement movement = new Movement(purchaseDetails, obj.getShop().getId().intValue(), obj.getDate());
                 movementService.create(movement);
                 purchaseDetailsService.create(purchaseDetails);
