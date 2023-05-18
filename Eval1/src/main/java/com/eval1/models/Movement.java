@@ -49,6 +49,14 @@ public class Movement extends HasFK<Shop> {
         setLaptopId(purchaseDetails.getLaptop().getId().intValue());
     }
 
+    public Movement(TransferDetails transferDetails, Integer shopId, Timestamp date) throws CustomException {
+        setDate(date);
+        setMovementTypeId(10);
+        setShopId(shopId);
+        setQuantity(transferDetails.getQuantity());
+        setLaptopId(transferDetails.getLaptop().getId().intValue());
+    }
+
     public void setQuantity(Double quantity) throws CustomException {
         if (quantity == null || quantity <= 0) {
             throw new CustomException("La quantité est nulle ou négative");
