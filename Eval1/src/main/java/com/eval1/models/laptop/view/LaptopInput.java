@@ -21,7 +21,7 @@ public class LaptopInput {
     private Long brandId;
     private String reference;
     private Double price;
-    private Double sellingPercent;
+    private Double sellingPrice;
 
     public Laptop getLaptop() throws CustomException {
         Laptop laptop = new Laptop( cpuId,  ramTypeId,  driverTypeId,  screenTypeId,  brandId);
@@ -31,7 +31,7 @@ public class LaptopInput {
         laptop.setDriverSize(driverSize);
         laptop.setReference(reference);
         laptop.setPrice(price);
-        laptop.setSellingPercent(sellingPercent);
+        laptop.setSellingPrice(sellingPrice);
         return laptop;
     }
 }

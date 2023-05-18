@@ -65,7 +65,6 @@ public class Laptop extends HasId {
 	private Brand brand;
 
 	private Double price;
-	private Double sellingPercent;
 
 	private Double sellingPrice;
 
@@ -95,14 +94,6 @@ public class Laptop extends HasId {
 		if (price < 0)
 			throw new CustomException("Le prix doit être positif");
 		this.price = price;
-	}
-
-	public void setSellingPercent(Double sellingPercent) throws CustomException {
-		if (sellingPercent < 0 || sellingPercent > 100)
-			throw new CustomException("Le pourcentage de vente doit être positif et inférieur à 100");
-		this.sellingPercent = sellingPercent;
-		if (getPrice() != null)
-			setSellingPrice(getPrice() * (1 + sellingPercent / 100));
 	}
 
 	public void setSellingPrice(Double sellingPrice) throws CustomException {

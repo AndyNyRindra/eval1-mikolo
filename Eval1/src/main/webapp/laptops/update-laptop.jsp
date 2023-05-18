@@ -174,8 +174,8 @@
                                 <input type="text" name="price" class="form-control" required value="<%=laptop.getPrice()%>">
                             </div>
                             <div class="col-sm-6 mb-5">
-                                <label>Pourcentage vente :</label>
-                                <input type="text" name="sellingPercent" class="form-control" required value="<%=laptop.getSellingPercent()%>">
+                                <label>Prix de vente :</label>
+                                <input type="text" name="sellingPrice" class="form-control" required value="<%=laptop.getSellingPercent()%>">
                             </div>
                         </div>
 
