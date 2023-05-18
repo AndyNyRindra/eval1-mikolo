@@ -5,11 +5,8 @@ import custom.springutils.service.CrudServiceWithFK;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.lang.Integer;
-import java.lang.Double;
 import com.eval1.repositories.ShopRepo;
-import com.eval1.models.Movement;
+import com.eval1.models.stock.Movement;
 import com.eval1.repositories.MovementRepo;
 
 
