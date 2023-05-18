@@ -1,19 +1,16 @@
 <%@ page import="com.eval1.models.laptop.Laptop" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.eval1.models.ActionType" %>
+<%@ page import="com.eval1.models.shop.Shop" %>
+<%@include file="../includes/layouts/default/top.jsp"%>
 <%
     List<Laptop> laptops = (List<Laptop>) request.getAttribute("laptops");
-    ActionType actionType = (ActionType) request.getAttribute("actionType");
+    List<Shop> shops = (List<Shop>) request.getAttribute("shops");
 
 %>
-<% if(actionType.getUrl().equals("purchases")) { %>
-<%@include file="../includes/layouts/default/top.jsp"%>
-<% } if(actionType.getUrl().equals("sales")) { %>
-<%@include file="../includes/layouts/default/top-seller.jsp"%>
-<% } %>
+
 
 <head>
-    <title>Mikolo - <%=actionType.getName()%></title>
+    <title>Mikolo - Transferts</title>
 </head>
 <!--begin::main-->
 <div class="d-flex flex-column flex-column-fluid">
@@ -22,11 +19,11 @@
         <div class="app-container container-xxl d-flex flex-stack">
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                 <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                    Ajout <%=actionType.getName()%>
+                    Ajout Transferts
                 </h1>
                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                     <li class="breadcrumb-item text-muted">
-                        <%=actionType.getName()%>
+                        Transferts
                     </li>
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
@@ -60,6 +57,18 @@
                             <label>Date :</label>
                             <input type="date" name="reference" class="form-control" required
                             >
+                        </div>
+
+                        <div class="mb-5">
+                        <label>Points de vente :</label>
+                        <select name="shopReceiverId" class="form-select"
+                                data-control="select2" data-placeholder="Points de vente"
+                                data-allow-clear="true">
+                            <option value="" >--Points de vente--</option>
+                            <% for (Shop shop : shops) { %>
+                            <option value="<%= shop.getId()%>" > <%= shop.getName() %></option>
+                            <% } %>
+                        </select>
                         </div>
 
                         <div id="data">
@@ -136,7 +145,7 @@
                         form.addEventListener('submit', function(evnt) {
                             evnt.preventDefault();
                             const formData = new FormData(form);
-                            send(formData, "${pageContext.request.contextPath}/<%=actionType.getUrl()%>", null)
+                            send(formData, "${pageContext.request.contextPath}/transfers", null)
                         });
                     </script>
                 </div>

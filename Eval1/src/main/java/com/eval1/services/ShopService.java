@@ -1,17 +1,24 @@
 package com.eval1.services;
 
+import com.eval1.models.Role;
 import com.eval1.repositories.ShopRepo;
 import custom.springutils.exception.CustomException;
 import custom.springutils.service.CrudService;
 import jakarta.persistence.EntityManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.String;
+import java.util.List;
+
 import com.eval1.models.shop.Shop;
 
 
 @Service
 public class ShopService extends CrudService<Shop, ShopRepo> {
+
+    @Autowired
+    private RoleService roleService;
 
     public ShopService(ShopRepo repo, EntityManager manager) {
         super(repo, manager);
@@ -57,5 +64,10 @@ public class ShopService extends CrudService<Shop, ShopRepo> {
             return super.update(obj);
         }
         return null;
+    }
+
+    public List<Shop> findByRoleSeller() throws Exception {
+        Role role = roleService.findById(0L);
+        return repo.findByRole(role);
     }
 }
