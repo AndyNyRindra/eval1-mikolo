@@ -58,6 +58,11 @@ public class SaleService extends CrudServiceWithFK<Sale, Shop, ShopRepo, SaleRep
         return "shop";
     }
 
+    public Integer getRequiredPages (Long count) {
+        return (int) Math.ceil((double)count / (double)getPageSize());
+    }
+
+
     boolean isSaleAlreadyExists(Sale sale) throws CustomException {
         if (sale.getId() != null) {
             if (repo.findByReferenceAndId(sale.getReference(), sale.getId()).isEmpty()) {

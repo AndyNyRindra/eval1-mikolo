@@ -49,12 +49,12 @@
                  data-kt-menu="true" data-kt-menu-expand="false">
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                     <span class="menu-link">
-                        <span class="menu-title">Films</span>
+                        <span class="menu-title">Ventes</span>
                         <span class="menu-arrow"></span>
                     </span>
                     <div class="menu-sub menu-sub-accordion">
                         <div class="menu-item">
-                            <a href="${pageContext.request.contextPath}/movies" class="menu-link">
+                            <a href="${pageContext.request.contextPath}/sales" class="menu-link">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -62,11 +62,11 @@
                             </a>
                         </div>
                         <div class="menu-item">
-                            <a href="${pageContext.request.contextPath}/movies/loadForm" class="menu-link">
+                            <a href="${pageContext.request.contextPath}/sales/create" class="menu-link">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Creer film</span>
+                                <span class="menu-title">Créer</span>
                             </a>
                         </div>
                     </div>
@@ -82,16 +82,16 @@
 
 
     <div class="app-sidebar-footer flex-column-auto pt-2 pb-6 px-6" id="kt_app_sidebar_footer">
-        <a href="${pageContext.request.contextPath}/authors/update/password"
-           class="mb-5 btn btn-flex flex-center btn-custom btn-primary overflow-hidden text-nowrap px-0 h-40px w-100"
-           data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss-="click"
-           data-bs-original-title="200+ in-house components and 3rd-party plugins" data-kt-initialized="1">
+<%--        <a href="${pageContext.request.contextPath}/authors/update/password"--%>
+<%--           class="mb-5 btn btn-flex flex-center btn-custom btn-primary overflow-hidden text-nowrap px-0 h-40px w-100"--%>
+<%--           data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss-="click"--%>
+<%--           data-bs-original-title="200+ in-house components and 3rd-party plugins" data-kt-initialized="1">--%>
 
-            <span class="btn-label">
-                Changer mot de passe
-            </span>
+<%--            <span class="btn-label">--%>
+<%--                Changer mot de passe--%>
+<%--            </span>--%>
 
-        </a>
+<%--        </a>--%>
         <a href="${pageContext.request.contextPath}/logout"
            class="btn btn-flex flex-center btn-custom btn-primary overflow-hidden text-nowrap px-0 h-40px w-100"
            data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss-="click"

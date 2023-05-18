@@ -36,6 +36,11 @@ public class DateUtil {
         return sdf.format(time);
     }
 
+    public static String formatDate (Timestamp timestamp) {
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy à HH:mm");
+        return sdf.format(timestamp);
+    }
+
     public static String formatFrenchTime (Time time) {
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH 'h' mm 'min'");
         return sdf.format(time);

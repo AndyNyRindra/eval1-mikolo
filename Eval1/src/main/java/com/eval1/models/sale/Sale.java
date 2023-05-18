@@ -11,6 +11,8 @@ import lombok.Setter;
 import java.sql.Timestamp;
 import java.util.List;
 
+import static com.eval1.util.DateUtil.formatDate;
+
 
 @Getter
 @Setter
@@ -44,5 +46,9 @@ public class Sale extends HasFK<Shop> {
     }
     public void setAmount() throws CustomException {
         setAmount(this.saleDetails.stream().mapToDouble(SaleDetails::getAmount).sum());
+    }
+
+    public String getDateToStr () {
+        return formatDate(getDate());
     }
 }

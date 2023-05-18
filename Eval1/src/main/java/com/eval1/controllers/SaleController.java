@@ -1,20 +1,50 @@
 package com.eval1.controllers;
 
+import com.eval1.models.drive.DriveFilter;
+import com.eval1.models.sale.SaleFilter;
+import com.eval1.models.seller.Seller;
 import com.eval1.models.shop.Shop;
+import com.eval1.security.SecurityManager;
+import com.eval1.services.ShopService;
 import custom.springutils.controller.CrudWithFK;
 import com.eval1.models.sale.Sale;
 import com.eval1.services.SaleService;
+import custom.springutils.util.ListResponse;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 
+@Controller
+@RequestMapping("/sales")
+public class SaleController  {
 
-@RestController
-@RequestMapping("/shops/{fkId}/sales")
-public class SaleController extends CrudWithFK<Shop, com.eval1.services.ShopService, Sale, SaleService, Object> {
+    @Autowired
+    private SecurityManager securityManager;
 
-    public SaleController(SaleService service, com.eval1.services.ShopService fkService) {
-        super(service, fkService);
+    @Autowired
+    private SaleService saleService;
+
+    @Autowired
+    private HttpSession session;
+
+    @GetMapping
+    public ModelAndView list(ModelAndView modelAndView, SaleFilter saleFilter, @RequestParam(required = false) Integer page) throws Exception {
+        securityManager.isSeller();
+        if (page == null) page = 1;
+        Seller connected = (Seller) session.getAttribute("connected");
+        ListResponse sales = saleService.search(saleFilter, connected.getShop().getId(), page);
+        modelAndView.addObject("requiredPages", saleService.getRequiredPages(sales.getCount()));
+        modelAndView.addObject("sales",sales);
+        modelAndView.addObject("shop",connected.getShop());
+        modelAndView.addObject("page", page);
+        if (saleFilter != null) modelAndView.addObject("saleFilter", saleFilter);
+        modelAndView.setViewName("sales/list-sales");
+        return modelAndView;
     }
-
 }
