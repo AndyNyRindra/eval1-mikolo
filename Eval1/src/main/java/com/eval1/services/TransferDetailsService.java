@@ -1,7 +1,7 @@
 package com.eval1.services;
 
-import com.eval1.models.Transfer;
-import com.eval1.models.TransferDetails;
+import com.eval1.models.transfer.Transfer;
+import com.eval1.models.transfer.TransferDetails;
 import com.eval1.repositories.TransferDetailsRepo;
 import com.eval1.repositories.TransferRepo;
 import custom.springutils.service.CrudServiceWithFK;

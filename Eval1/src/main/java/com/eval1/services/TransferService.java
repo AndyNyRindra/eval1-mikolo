@@ -1,10 +1,9 @@
 package com.eval1.services;
 
-import com.eval1.models.Movement;
-import com.eval1.models.Transfer;
-import com.eval1.models.TransferDetails;
-import com.eval1.models.VStock;
-import com.eval1.models.purchase.Purchase;
+import com.eval1.models.laptop.Laptop;
+import com.eval1.models.stock.Movement;
+import com.eval1.models.transfer.Transfer;
+import com.eval1.models.transfer.TransferDetails;
 import com.eval1.repositories.TransferRepo;
 import custom.springutils.exception.CustomException;
 import custom.springutils.service.CrudService;
@@ -28,6 +27,9 @@ public class TransferService extends CrudService<Transfer, TransferRepo> {
 
     @Autowired
     private VStockService vStockService;
+
+    @Autowired
+    private LaptopService laptopService;
 
     public TransferService(TransferRepo repo, EntityManager manager) {
         super(repo, manager);
@@ -69,12 +71,15 @@ public class TransferService extends CrudService<Transfer, TransferRepo> {
             for (TransferDetails transferDetails : obj.getTransferDetails()) {
                 vStockService.isLaptopQuantityEnough(obj.getShopSender().getId().intValue(), transferDetails.getLaptop().getId().intValue(), transferDetails.getQuantity());
                 transferDetails.setTransferId(toSave.getId().intValue());
+                Laptop laptop = laptopService.findById(transferDetails.getLaptop().getId());
+                transferDetails.setLaptop(laptop);
+                transferDetails.setAmount();
                 Movement movement = new Movement(transferDetails, obj.getShopSender().getId().intValue(), obj.getDate());
                 movementService.create(movement);
                 transferDetailsService.create(transferDetails);
             }
-            toSave.setTransferDetails(obj.getTransferDetails());
-            return toSave;
+            obj.setAmount();
+            return super.create(obj);
         }
         return null;
     }

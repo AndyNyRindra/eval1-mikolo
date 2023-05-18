@@ -1,8 +1,7 @@
 package com.eval1.repositories;
 
-import com.eval1.models.purchase.Purchase;
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.eval1.models.Transfer;
+import com.eval1.models.transfer.Transfer;
 
 import java.util.List;
 
