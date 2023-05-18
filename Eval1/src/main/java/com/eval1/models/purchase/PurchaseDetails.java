@@ -26,7 +26,7 @@ public class PurchaseDetails extends HasFK<Purchase> {
 	@ManyToOne()
 	@JoinColumn(name = "laptop_id")
 	private Laptop laptop;
-
+    private Double amount;
 
     @Override
     public void setFK(Purchase fk) throws CustomException {
@@ -41,5 +41,16 @@ public class PurchaseDetails extends HasFK<Purchase> {
             throw new CustomException("La quantité est nulle ou négative");
         }
         this.quantity = quantity;
+    }
+
+    public void setAmount() throws CustomException {
+        	setAmount(this.quantity * this.laptop.getPrice());
+    }
+
+    public void setAmount(Double amount) throws CustomException {
+        if (amount == null || amount <= 0) {
+            throw new CustomException("Le montant est nul ou négatif");
+        }
+        this.amount = amount;
     }
 }

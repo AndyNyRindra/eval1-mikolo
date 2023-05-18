@@ -23,6 +23,7 @@ public class Purchase extends HasFK<Shop> {
 	@ManyToOne()
 	@JoinColumn(name = "shop_id")
 	private Shop shop;
+    private Double amount;
 
     @Transient
     private List<PurchaseDetails> purchaseDetails;
@@ -34,5 +35,14 @@ public class Purchase extends HasFK<Shop> {
             throw new CustomException("Shop is null");
         }
         setShop(fk);
+    }
+
+    public void setAmount(Double amount) throws CustomException {
+        if (amount < 0)
+            throw new CustomException("Le montant doit être positif");
+        this.amount = amount;
+    }
+    public void setAmount() throws CustomException {
+        setAmount(this.purchaseDetails.stream().mapToDouble(PurchaseDetails::getAmount).sum());
     }
 }
