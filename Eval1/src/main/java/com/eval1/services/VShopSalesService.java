@@ -19,4 +19,17 @@ public class VShopSalesService extends CrudService<VShopSales, VShopSalesRepo> {
         return VShopSales.class;
     }
 
+    public Integer getRequiredPages (Long count) {
+        return (int) Math.ceil((double)count / (double)getPageSize());
+    }
+
+    @Override
+    public String getPdfPath() {
+        return "pdf/ventes-global-mois-shop.pdf";
+    }
+
+    @Override
+    public String getPdfTitle() {
+        return "Ventes global par mois par point de vente";
+    }
 }
