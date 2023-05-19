@@ -4,11 +4,10 @@
 <%@ page import="com.eval1.models.ram.RamTypeFilter" %>
 <%@ page import="com.eval1.models.sale.VGlobalSales" %>
 <%@ page import="com.eval1.models.sale.VGlobalSalesFilter" %>
-<%@ page import="com.eval1.models.sale.VShopSales" %>
 <%@include file="../includes/layouts/default/top.jsp"%>
 <%
     ListResponse stats = (ListResponse) request.getAttribute("stats");
-    List<VShopSales> statList = (List<VShopSales>) stats.getElements();
+    List<VGlobalSales> statList = (List<VGlobalSales>) stats.getElements();
     Integer requiredPages = (Integer) request.getAttribute("requiredPages");
     Integer pageNumber = (Integer) request.getAttribute("page");
     VGlobalSalesFilter saleFilter = (VGlobalSalesFilter) request.getAttribute("saleFilter");
@@ -27,11 +26,11 @@
         <div class="app-container container-xxl d-flex flex-stack">
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                 <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                    Ventes par mois par point de vente
+                    Ventes par mois
                 </h1>
                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                     <li class="breadcrumb-item text-muted">
-                        Ventes par mois par point de vente
+                        Ventes par mois
                     </li>
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
@@ -53,8 +52,8 @@
                 <div class="card-header align-items-center py-0 gap-2">
                     <div class="card-toolbar flex-row-fluid justify-content-end gap-5" data-select2-id="select2-data-123-mzxj">
                         <!--begin::Add product-->
-                        <%--                        <a  class="btn btn-success" onclick="window.print()">--%>
-                        <a href="${pageContext.request.contextPath}/sales/stats/shops/pdf" class="btn btn-success">
+<%--                        <a  class="btn btn-success" onclick="window.print()">--%>
+                        <a href="${pageContext.request.contextPath}/sales/stats/global/pdf" class="btn btn-success">
                             Exporter en pdf
                         </a>
                         <!--end::Add product-->
@@ -100,17 +99,15 @@
                         <tr class="fw-semibold fs-6 text-muted">
                             <th>Id</th>
                             <th>Mois</th>
-                            <th>Point de vente</th>
                             <th>Nombre de ventes</th>
                             <th>Recettes</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <% for(VShopSales stat : statList) { %>
+                        <% for(VGlobalSales stat : statList) { %>
                         <tr>
                             <td><%=stat.getId()%></td>
                             <td><%= stat.getMois() %></td>
-                            <td><%= stat.getShop().getName() %></td>
                             <td><%= stat.getNombreVentes() %></td>
                             <td><%= stat.getRecettes() %></td>
                         </tr>
@@ -124,7 +121,7 @@
                                 <% } else { %>
                                 class="page-item previous"
                                 <% } %>
-                        ><a href="${pageContext.request.contextPath}/sales/stats/shops?<%=filters%>&page=<%=pageNumber-1%>" class="page-link"><i class="previous"></i></a></li>
+                        ><a href="${pageContext.request.contextPath}/sales/stats/global?<%=filters%>&page=<%=pageNumber-1%>" class="page-link"><i class="previous"></i></a></li>
                         <% for (int i = 1 ; i <= requiredPages ; i++) { %>
                         <li
                                 <% if (pageNumber == i) { %>
@@ -132,7 +129,7 @@
                                 <% } else { %>
                                 class="page-item"
                                 <% } %>
-                        ><a href="${pageContext.request.contextPath}/sales/stats/shops?<%=filters%>&page=<%=i%>" class="page-link"><%=i%></a></li>
+                        ><a href="${pageContext.request.contextPath}/sales/stats/global?<%=filters%>&page=<%=i%>" class="page-link"><%=i%></a></li>
                         <% } %>
                         <li
                                 <% if (pageNumber == requiredPages) { %>
@@ -140,7 +137,7 @@
                                 <% } else { %>
                                 class="page-item next"
                                 <% } %>
-                        ><a href="${pageContext.request.contextPath}/sales/stats/shops?<%=filters%>&page=<%=pageNumber+1%>"  class="page-link"><i class="next"></i></a></li>
+                        ><a href="${pageContext.request.contextPath}/sales/stats/global?<%=filters%>&page=<%=pageNumber+1%>"  class="page-link"><i class="next"></i></a></li>
                     </ul>
 
                 </div>

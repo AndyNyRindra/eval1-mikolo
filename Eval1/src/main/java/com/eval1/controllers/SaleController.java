@@ -4,20 +4,19 @@ import com.eval1.models.ActionType;
 import com.eval1.models.drive.DriveFilter;
 import com.eval1.models.purchase.Purchase;
 import com.eval1.models.purchase.PurchaseInput;
-import com.eval1.models.sale.SaleFilter;
-import com.eval1.models.sale.SaleInput;
+import com.eval1.models.sale.*;
 import com.eval1.models.seller.Seller;
 import com.eval1.models.shop.Shop;
 import com.eval1.security.SecurityManager;
-import com.eval1.services.LaptopService;
-import com.eval1.services.SaleDetailsService;
-import com.eval1.services.ShopService;
+import com.eval1.services.*;
 import custom.springutils.controller.CrudWithFK;
-import com.eval1.models.sale.Sale;
-import com.eval1.services.SaleService;
 import custom.springutils.util.ListResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +41,12 @@ public class SaleController  {
 
     @Autowired
     private LaptopService laptopService;
+
+    @Autowired
+    private VGlobalSalesService vGlobalSalesService;
+
+    @Autowired
+    private VShopSalesService vShopSalesService;
 
     @GetMapping
     public ModelAndView list(ModelAndView modelAndView, SaleFilter saleFilter, @RequestParam(required = false) Integer page) throws Exception {
@@ -95,5 +100,56 @@ public class SaleController  {
 
         }
 
+    }
+
+    @GetMapping("/stats/global")
+    public ModelAndView globalStats(ModelAndView modelAndView, VGlobalSalesFilter saleFilter, @RequestParam(name = "page", required = false) Integer page) throws Exception {
+        securityManager.isAdmin();
+        if (page == null) page = 1;
+
+        ListResponse stats = vGlobalSalesService.search(saleFilter, page);
+        if (saleFilter != null) modelAndView.addObject("saleFilter", saleFilter);
+        modelAndView.addObject("stats", stats);
+        modelAndView.addObject("requiredPages", vGlobalSalesService.getRequiredPages(stats.getCount()));
+        modelAndView.addObject("page", page);
+        modelAndView.setViewName("sales/global-stats-table");
+        return modelAndView;
+    }
+
+    @GetMapping("/stats/shops")
+    public ModelAndView shopStats(ModelAndView modelAndView, VGlobalSalesFilter saleFilter, @RequestParam(name = "page", required = false) Integer page) throws Exception {
+        securityManager.isAdmin();
+        if (page == null) page = 1;
+
+        ListResponse stats = vShopSalesService.search(saleFilter, page);
+        if (saleFilter != null) modelAndView.addObject("saleFilter", saleFilter);
+        modelAndView.addObject("stats", stats);
+        modelAndView.addObject("requiredPages", vShopSalesService.getRequiredPages(stats.getCount()));
+        modelAndView.addObject("page", page);
+        modelAndView.setViewName("sales/shops-stats-table");
+        return modelAndView;
+    }
+
+
+    @GetMapping({"stats/global/pdf"})
+    public ResponseEntity<?> createPDF() throws Exception {
+        securityManager.isAdmin();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        String filename = "vente-par-mois.pdf";
+        headers.setContentDispositionFormData(filename, filename);
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        return new ResponseEntity(vGlobalSalesService.createPDF(), headers, HttpStatus.OK);
+    }
+
+    @GetMapping({"stats/shops/pdf"})
+    public ResponseEntity<?> createShopPDF() throws Exception {
+        securityManager.isAdmin();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        String filename = "vente-par-mois-par-point-vente.pdf";
+        headers.setContentDispositionFormData(filename, filename);
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        return new ResponseEntity(vShopSalesService.createPDF(), headers, HttpStatus.OK);
     }
 }

@@ -19,4 +19,20 @@ public class VGlobalSalesService extends CrudService<VGlobalSales, VGlobalSalesR
         return VGlobalSales.class;
     }
 
+    public Integer getRequiredPages (Long count) {
+        return (int) Math.ceil((double)count / (double)getPageSize());
+    }
+
+
+    @Override
+    public String getPdfPath() {
+        return "pdf/ventes-global-mois.pdf";
+    }
+
+    @Override
+    public String getPdfTitle() {
+        return "Ventes global par mois";
+    }
+
+
 }
