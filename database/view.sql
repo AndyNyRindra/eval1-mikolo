@@ -59,8 +59,6 @@ select
     nombre_ventes  nombre
 from v_global_sales
 union all
-select * from v_global_purchases
-union all
 select * from v_global_loss
 
 

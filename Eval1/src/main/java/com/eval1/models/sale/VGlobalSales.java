@@ -14,6 +14,8 @@ import java.lang.Double;
 import java.lang.Long;
 import java.sql.Date;
 
+import static com.eval1.util.DateUtil.getMonth;
+
 
 @Getter
 @Setter
@@ -39,5 +41,10 @@ public class VGlobalSales extends HasId {
 	@PDFColumn(value = "Mois", width = 20, order=0)
 	public Date getMois() {
 		return mois;
+	}
+
+
+	public String getMonthToStr() {
+		return getMonth(getMois());
 	}
 }

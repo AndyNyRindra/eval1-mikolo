@@ -117,15 +117,18 @@ public class SaleController  {
     }
 
     @GetMapping("/stats/shops")
-    public ModelAndView shopStats(ModelAndView modelAndView, VGlobalSalesFilter saleFilter, @RequestParam(name = "page", required = false) Integer page) throws Exception {
+    public ModelAndView shopStats(ModelAndView modelAndView, VShopSalesFilter saleFilter, @RequestParam(name = "page", required = false) Integer page) throws Exception {
         securityManager.isAdmin();
         if (page == null) page = 1;
-
+        if (saleFilter != null && saleFilter.getMonth() != null && saleFilter.getYear() != null) {
+            saleFilter.setConditions();
+        }
         ListResponse stats = vShopSalesService.search(saleFilter, page);
         if (saleFilter != null) modelAndView.addObject("saleFilter", saleFilter);
         modelAndView.addObject("stats", stats);
         modelAndView.addObject("requiredPages", vShopSalesService.getRequiredPages(stats.getCount()));
         modelAndView.addObject("page", page);
+        modelAndView.addObject("months", new ShopSaleFilterInput().getMonths());
         modelAndView.setViewName("sales/shops-stats-table");
         return modelAndView;
     }

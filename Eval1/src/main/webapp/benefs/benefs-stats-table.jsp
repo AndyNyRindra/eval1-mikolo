@@ -11,9 +11,9 @@
     Integer pageNumber = (Integer) request.getAttribute("page");
     VGlobalSalesFilter saleFilter = (VGlobalSalesFilter) request.getAttribute("saleFilter");
     String filters = "";
-//    if (saleFilter != null) {
-//        filters = saleFilter.getFilterConditions();
-//    }
+    if (saleFilter != null) {
+        filters = saleFilter.getFilterConditions();
+    }
 %>
 <head>
     <title>Mikolo - Bénéfices</title>
@@ -51,8 +51,8 @@
                 <div class="card-header align-items-center py-0 gap-2">
                     <div class="card-toolbar flex-row-fluid justify-content-end gap-5" data-select2-id="select2-data-123-mzxj">
                         <!--begin::Add product-->
-                        <%--                        <a  class="btn btn-success" onclick="window.print()">--%>
-                        <a href="${pageContext.request.contextPath}/stats/benefs/pdf" class="btn btn-success">
+                                                <a  class="btn btn-success" onclick="window.print()">
+<%--                        <a href="${pageContext.request.contextPath}/stats/benefs/pdf" class="btn btn-success">--%>
                             Exporter en pdf
                         </a>
                         <!--end::Add product-->
@@ -61,37 +61,25 @@
                 <!--end::card header-->
                 <!--begin::card body-->
                 <div class="card-body pt-0">
-<%--                    <div class="accordion-body">--%>
-<%--                        <form method="get">--%>
-<%--                            <div class="row mb-5">--%>
-<%--                                <div class="mb-5">--%>
-<%--                                    <label>Date minimum</label>--%>
-<%--                                    <input type="date" name="minDate" class="form-control"--%>
-<%--                                        <% if (saleFilter != null && saleFilter.getMinDate() != null) { %>--%>
-<%--                                           value="<%=saleFilter.getMinDate()%>"--%>
-<%--                                        <% } %>--%>
-<%--                                    >--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
+                    <div class="accordion-body">
+                        <form method="get">
+                            <div class="row mb-5">
+                                <div class="mb-5">
+                                    <label>Année</label>
+                                    <input type="number" name="year" class="form-control"
+                                        <% if (saleFilter != null && saleFilter.getYear() != null) { %>
+                                           value="<%=saleFilter.getYear()%>"
+                                        <% } %>
+                                    >
+                                </div>
+                            </div>
 
-<%--                            <div class="row mb-5">--%>
-<%--                                <div class="mb-5">--%>
-<%--                                    <label>Date maximum</label>--%>
-<%--                                    <input type="date" name="maxDate" class="form-control"--%>
-<%--                                        <% if (saleFilter != null && saleFilter.getMaxDate() != null) { %>--%>
-<%--                                           value="<%=saleFilter.getMaxDate()%>"--%>
-<%--                                        <% } %>--%>
-<%--                                    >--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
+                            <button class="btn btn-primary" type="submit">
+                                Filtrer
+                            </button>
 
-
-<%--                            <button class="btn btn-primary" type="submit">--%>
-<%--                                Filtrer--%>
-<%--                            </button>--%>
-
-<%--                        </form>--%>
-<%--                    </div>--%>
+                        </form>
+                    </div>
                     <!--begin::table-->
                     <table class="table table-row-bordered gy-5" id="scenes-list">
                         <thead>
@@ -105,7 +93,7 @@
                         <% for(VBeneficeMonth stat : statList) { %>
                         <tr>
                             <td><%=stat.getId()%></td>
-                            <td><%= stat.getMois() %></td>
+                            <td><%= stat.getMonthToStr() %></td>
                             <td><%= stat.getMontant() %></td>
                         </tr>
                         <% } %>

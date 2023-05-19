@@ -5,17 +5,20 @@
 <%@ page import="com.eval1.models.sale.VGlobalSales" %>
 <%@ page import="com.eval1.models.sale.VGlobalSalesFilter" %>
 <%@ page import="com.eval1.models.sale.VShopSales" %>
+<%@ page import="com.eval1.models.sale.VShopSalesFilter" %>
+<%@ page import="java.util.HashMap" %>
 <%@include file="../includes/layouts/default/top.jsp"%>
 <%
     ListResponse stats = (ListResponse) request.getAttribute("stats");
     List<VShopSales> statList = (List<VShopSales>) stats.getElements();
     Integer requiredPages = (Integer) request.getAttribute("requiredPages");
     Integer pageNumber = (Integer) request.getAttribute("page");
-    VGlobalSalesFilter saleFilter = (VGlobalSalesFilter) request.getAttribute("saleFilter");
+    VShopSalesFilter saleFilter = (VShopSalesFilter) request.getAttribute("saleFilter");
+    HashMap<Integer, String> months = (HashMap<Integer, String>) request.getAttribute("months");
     String filters = "";
-//    if (saleFilter != null) {
-//        filters = saleFilter.getFilterConditions();
-//    }
+    if (saleFilter != null) {
+        filters = saleFilter.getFilterConditions();
+    }
 %>
 <head>
     <title>Mikolo - Ventes</title>
@@ -53,8 +56,8 @@
                 <div class="card-header align-items-center py-0 gap-2">
                     <div class="card-toolbar flex-row-fluid justify-content-end gap-5" data-select2-id="select2-data-123-mzxj">
                         <!--begin::Add product-->
-                        <%--                        <a  class="btn btn-success" onclick="window.print()">--%>
-                        <a href="${pageContext.request.contextPath}/sales/stats/shops/pdf" class="btn btn-success">
+                                                <a  class="btn btn-success" onclick="window.print()">
+<%--                        <a href="${pageContext.request.contextPath}/sales/stats/shops/pdf" class="btn btn-success">--%>
                             Exporter en pdf
                         </a>
                         <!--end::Add product-->
@@ -63,37 +66,37 @@
                 <!--end::card header-->
                 <!--begin::card body-->
                 <div class="card-body pt-0">
-<%--                    <div class="accordion-body">--%>
-<%--                        <form method="get">--%>
-<%--                            <div class="row mb-5">--%>
-<%--                                <div class="mb-5">--%>
-<%--                                    <label>Date minimum</label>--%>
-<%--                                    <input type="date" name="minDate" class="form-control"--%>
-<%--                                        <% if (saleFilter != null && saleFilter.getMinDate() != null) { %>--%>
-<%--                                           value="<%=saleFilter.getMinDate()%>"--%>
-<%--                                        <% } %>--%>
-<%--                                    >--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
+                    <div class="accordion-body">
+                        <form method="get">
+                            <div class="row mb-5">
 
-<%--                            <div class="row mb-5">--%>
-<%--                                <div class="mb-5">--%>
-<%--                                    <label>Date maximum</label>--%>
-<%--                                    <input type="date" name="maxDate" class="form-control"--%>
-<%--                                        <% if (saleFilter != null && saleFilter.getMaxDate() != null) { %>--%>
-<%--                                           value="<%=saleFilter.getMaxDate()%>"--%>
-<%--                                        <% } %>--%>
-<%--                                    >--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
+                                <div class="mb-5">
+                                    <label>Mois :</label>
+                                    <select name="month" class="form-select"
+                                            data-control="select2" data-placeholder="Mois"
+                                            data-allow-clear="true" required>
+                                        <option value="" >--Mois--</option>
+                                        <% for(Integer i : months.keySet()) { %>
+                                        <option value="<%= i %>" <%= saleFilter != null && saleFilter.getMonth() == i ? "selected" : "" %>><%= months.get(i) %></option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                                <div class="mb-5">
+                                    <label>Année</label>
+                                    <input type="number" name="year" class="form-control"
+                                        <% if (saleFilter != null && saleFilter.getYear() != null) { %>
+                                           value="<%=saleFilter.getYear()%>"
+                                        <% } %>
+                                    >
+                                </div>
+                            </div>
 
+                            <button class="btn btn-primary" type="submit">
+                                Filtrer
+                            </button>
 
-<%--                            <button class="btn btn-primary" type="submit">--%>
-<%--                                Filtrer--%>
-<%--                            </button>--%>
-
-<%--                        </form>--%>
-<%--                    </div>--%>
+                        </form>
+                    </div>
                     <!--begin::table-->
                     <table class="table table-row-bordered gy-5" id="scenes-list">
                         <thead>
@@ -109,7 +112,7 @@
                         <% for(VShopSales stat : statList) { %>
                         <tr>
                             <td><%=stat.getId()%></td>
-                            <td><%= stat.getMois() %></td>
+                            <td><%= stat.getMonthToStr() %></td>
                             <td><%= stat.getShop().getName() %></td>
                             <td><%= stat.getNombreVentes() %></td>
                             <td><%= stat.getRecettes() %></td>

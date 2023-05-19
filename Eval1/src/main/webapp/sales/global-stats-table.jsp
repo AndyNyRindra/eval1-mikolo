@@ -12,9 +12,9 @@
     Integer pageNumber = (Integer) request.getAttribute("page");
     VGlobalSalesFilter saleFilter = (VGlobalSalesFilter) request.getAttribute("saleFilter");
     String filters = "";
-//    if (saleFilter != null) {
-//        filters = saleFilter.getFilterConditions();
-//    }
+    if (saleFilter != null) {
+        filters = saleFilter.getFilterConditions();
+    }
 %>
 <head>
     <title>Mikolo - Ventes</title>
@@ -52,8 +52,8 @@
                 <div class="card-header align-items-center py-0 gap-2">
                     <div class="card-toolbar flex-row-fluid justify-content-end gap-5" data-select2-id="select2-data-123-mzxj">
                         <!--begin::Add product-->
-<%--                        <a  class="btn btn-success" onclick="window.print()">--%>
-                        <a href="${pageContext.request.contextPath}/sales/stats/global/pdf" class="btn btn-success">
+                        <a  class="btn btn-success" onclick="window.print()">
+<%--                        <a href="${pageContext.request.contextPath}/sales/stats/global/pdf" class="btn btn-success">--%>
                             Exporter en pdf
                         </a>
                         <!--end::Add product-->
@@ -62,39 +62,27 @@
                 <!--end::card header-->
                 <!--begin::card body-->
                 <div class="card-body pt-0">
-<%--                    <div class="accordion-body">--%>
-<%--                        <form method="get">--%>
-<%--                            <div class="row mb-5">--%>
-<%--                                <div class="mb-5">--%>
-<%--                                    <label>Date minimum</label>--%>
-<%--                                    <input type="date" name="minDate" class="form-control"--%>
-<%--                                        <% if (saleFilter != null && saleFilter.getMinDate() != null) { %>--%>
-<%--                                           value="<%=saleFilter.getMinDate()%>"--%>
-<%--                                        <% } %>--%>
-<%--                                    >--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
+                    <div class="accordion-body">
+                        <form method="get">
+                            <div class="row mb-5">
+                                <div class="mb-5">
+                                    <label>Année</label>
+                                    <input type="number" name="year" class="form-control"
+                                        <% if (saleFilter != null && saleFilter.getYear() != null) { %>
+                                           value="<%=saleFilter.getYear()%>"
+                                        <% } %>
+                                    >
+                                </div>
+                            </div>
 
-<%--                            <div class="row mb-5">--%>
-<%--                                <div class="mb-5">--%>
-<%--                                    <label>Date maximum</label>--%>
-<%--                                    <input type="date" name="maxDate" class="form-control"--%>
-<%--                                        <% if (saleFilter != null && saleFilter.getMaxDate() != null) { %>--%>
-<%--                                           value="<%=saleFilter.getMaxDate()%>"--%>
-<%--                                        <% } %>--%>
-<%--                                    >--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
+                            <button class="btn btn-primary" type="submit">
+                                Filtrer
+                            </button>
 
-
-<%--                            <button class="btn btn-primary" type="submit">--%>
-<%--                                Filtrer--%>
-<%--                            </button>--%>
-
-<%--                        </form>--%>
-<%--                    </div>--%>
+                        </form>
+                    </div>
                     <!--begin::table-->
-                    <table class="table table-row-bordered gy-5" id="scenes-list">
+                    <table class="table table-row-bordered gy-5 mb-5" id="scenes-list">
                         <thead>
                         <tr class="fw-semibold fs-6 text-muted">
                             <th>Id</th>
@@ -107,13 +95,16 @@
                         <% for(VGlobalSales stat : statList) { %>
                         <tr>
                             <td><%=stat.getId()%></td>
-                            <td><%= stat.getMois() %></td>
+                            <td><%= stat.getMonthToStr() %></td>
                             <td><%= stat.getNombreVentes() %></td>
                             <td><%= stat.getRecettes() %></td>
                         </tr>
                         <% } %>
                         </tbody>
                     </table>
+
+                    <canvas id="line-chart" class="mh-400px"></canvas>
+
                     <ul class="pagination">
                         <li
                                 <% if (pageNumber == 1) { %>
@@ -153,4 +144,62 @@
 <script src="${pageContext.request.contextPath}/assets/custom/elementDelete.js"></script>
 <%@include file="../includes/layouts/default/bottom.jsp"%>
 <%@include file="../includes/delete.jsp"%>
+
+
+<%--line chart--%>
+<script>
+    var fontFamily = KTUtil.getCssVariableValue('--bs-font-sans-serif');
+    var linectx = document.getElementById('line-chart');
+
+
+    // Chart labels
+    const linelabels = [
+        <% for(VGlobalSales stat : statList) { %>
+        '<%= stat.getMonthToStr() %>',
+        <% } %>
+    ];
+
+    // Chart data
+    const linedata = {
+        labels: linelabels,
+        datasets: [
+            {
+                backgroundColor: '#0d6efd',
+                borderColor: '#0d6efd',
+                label: 'Ventes par mois',
+                barPercentage: 0.9,
+                barThickness: 20,
+                maxBarThickness: 30,
+                minBarLength: 2,
+                data: [
+                    <% for(VGlobalSales stat : statList) { %>
+                    '<%= stat.getRecettes() %>',
+                    <% } %>
+                ]
+            }
+        ]
+    };
+
+    // Chart config
+    const lineconfig = {
+        type: 'line',
+        data: linedata,
+        options: {
+            plugins: {
+                title: {
+                    display: false,
+                }
+            },
+            responsive: true,
+        },
+        defaults:{
+            global: {
+                defaultFont: fontFamily
+            }
+        }
+    };
+
+    // Init ChartJS -- for more info, please visit: https://www.chartjs.org/docs/latest/
+    var lineChart = new Chart(linectx, lineconfig);
+</script>
 

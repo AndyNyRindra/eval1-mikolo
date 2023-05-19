@@ -16,6 +16,8 @@ import java.lang.Double;
 import java.lang.Long;
 import java.sql.Date;
 
+import static com.eval1.util.DateUtil.getMonth;
+
 
 @Getter
 @Setter
@@ -49,5 +51,9 @@ public class VShopSales extends HasId {
 	@PDFColumn(value = "Point de vente", width = 20, order=0)
 	public String getShopName() {
 		return getShop().getName();
+	}
+
+	public String getMonthToStr() {
+		return getMonth(getMois());
 	}
 }

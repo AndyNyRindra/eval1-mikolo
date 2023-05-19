@@ -47,7 +47,7 @@
                             <input type="text" name="minValue" class="form-control" required
                                    value="<%= comission.getMinValue() %>"/>
 
-                            
+
                         </div>
                         <div class="mb-5">
                             <label>Valeur maximum :</label>

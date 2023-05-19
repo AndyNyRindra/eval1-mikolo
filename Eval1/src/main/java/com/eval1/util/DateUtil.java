@@ -68,4 +68,9 @@ public class DateUtil {
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("EEEE dd MMMM yyyy à HH:mm");
         return sdf.format(date);
     }
+
+    public static String getMonth(Date date) {
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMMM yyyy");
+        return sdf.format(date);
+    }
 }
