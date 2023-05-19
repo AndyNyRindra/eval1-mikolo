@@ -7,7 +7,11 @@
 <%@ page import="com.eval1.models.sale.SaleDetails" %>
 <%@ page import="com.eval1.models.transfer.TransferDetails" %>
 <%@ page import="com.eval1.models.transfer.Transfer" %>
+<% if (session.getAttribute("admin") != null) { %>
+<%@include file="../includes/layouts/default/top.jsp"%>
+<% } else { %>
 <%@include file="../includes/layouts/default/top-seller.jsp"%>
+<% } %>
 <%
     ListResponse details = (ListResponse) request.getAttribute("details");
     List<TransferDetails> transferDetails = (List<TransferDetails>) details.getElements();

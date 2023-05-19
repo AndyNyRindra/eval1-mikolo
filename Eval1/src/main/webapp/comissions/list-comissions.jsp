@@ -1,30 +1,24 @@
 <%@ page import="custom.springutils.util.ListResponse" %>
 <%@ page import="java.util.List" %>
 
-<%@ page import="com.eval1.models.sale.Sale" %>
-<%@ page import="com.eval1.models.sale.SaleFilter" %>
-<%@ page import="com.eval1.models.shop.Shop" %>
-<%@ page import="com.eval1.models.transfer.TransferDetails" %>
-<%@ page import="com.eval1.models.transfer.Transfer" %>
-<%@ page import="com.eval1.models.transfer.TransferFilter" %>
-<% if (session.getAttribute("admin") != null) { %>
+<%@ page import="com.eval1.models.drive.DriveType" %>
+<%@ page import="com.eval1.models.drive.DriveFilter" %>
+<%@ page import="com.eval1.models.comission.Comission" %>
+<%@ page import="com.eval1.models.comission.ComissionFilter" %>
 <%@include file="../includes/layouts/default/top.jsp"%>
-<% } else { %>
-<%@include file="../includes/layouts/default/top-seller.jsp"%>
-<% } %>
 <%
-    ListResponse transfers = (ListResponse) request.getAttribute("transfers");
-    List<Transfer> transferList = (List<Transfer>) transfers.getElements();
+    ListResponse comissions = (ListResponse) request.getAttribute("comissions");
+    List<Comission> comissionList = (List<Comission>) comissions.getElements();
     Integer requiredPages = (Integer) request.getAttribute("requiredPages");
     Integer pageNumber = (Integer) request.getAttribute("page");
-    TransferFilter transferFilter = (TransferFilter) request.getAttribute("transferFilter");
+    ComissionFilter comissionFilter = (ComissionFilter) request.getAttribute("comissionFilter");
     String filters = "";
-    if (transferFilter != null) {
-        filters = transferFilter.getFilterConditions();
+    if (comissionFilter != null) {
+        filters = comissionFilter.getFilterConditions();
     }
 %>
 <head>
-    <title>Mikolo - Transferts</title>
+    <title>Mikolo - Comissions</title>
 </head>
 <!--begin::main-->
 <div class="d-flex flex-column flex-column-fluid">
@@ -33,11 +27,11 @@
         <div class="app-container container-xxl d-flex flex-stack">
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                 <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                    Transferts
+                    Comissions
                 </h1>
                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                     <li class="breadcrumb-item text-muted">
-                        Transferts
+                        Comissions
                     </li>
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
@@ -59,8 +53,8 @@
                 <div class="card-header align-items-center py-0 gap-2">
                     <div class="card-toolbar flex-row-fluid justify-content-end gap-5" data-select2-id="select2-data-123-mzxj">
                         <!--begin::Add product-->
-                        <a href="${pageContext.request.contextPath}/transfer/create" class="btn btn-success">
-                            Ajouter un transfert
+                        <a href="${pageContext.request.contextPath}/comissions/create" class="btn btn-success">
+                            Ajouter une Comission
                         </a>
                         <!--end::Add product-->
                     </div>
@@ -71,28 +65,36 @@
                     <div class="accordion-body">
                         <form method="get">
                             <div class="mb-5">
-                                <input id="name" type="text" name="reference" class="form-control" placeholder="Reference..."
-                                    <% if (transferFilter != null && transferFilter.getReference() != null) { %>
-                                       value="<%=transferFilter.getReference().replace("%", "")%>"
+                                <label for="minValue">Valeur minimum</label>
+                                <input id="minValue" type="text" name="minValue" class="form-control"
+                                    <% if (comissionFilter != null && comissionFilter.getMinValue() != null) { %>
+                                       value="<%=comissionFilter.getMinValue()%>"
                                     <% } %>
                                 >
                             </div>
-
-                            <div class="row">
-                                <div class="mb-5 col-sm-6">
-                                    <input id="min" type="text" name="amountMin" class="form-control" placeholder="Montant minimum..."
-                                        <% if (transferFilter != null && transferFilter.getAmountMin() != null) { %>
-                                           value="<%=transferFilter.getAmountMin()%>"
-                                        <% } %>
-                                    >
-                                </div>
-                                <div class="mb-5 col-sm-6">
-                                    <input id="max" type="text" name="amountMax" class="form-control" placeholder="Montant maximum..."
-                                        <% if (transferFilter != null && transferFilter.getAmountMax() != null) { %>
-                                           value="<%=transferFilter.getAmountMax()%>"
-                                        <% } %>
-                                    >
-                                </div>
+                            <div class="mb-5">
+                                <label for="minValue">Valeur maximum</label>
+                                <input id="maxValue" type="text" name="maxValue" class="form-control"
+                                    <% if (comissionFilter != null && comissionFilter.getMaxValue() != null) { %>
+                                       value="<%=comissionFilter.getMaxValue()%>"
+                                    <% } %>
+                                >
+                            </div>
+                            <div class="mb-5">
+                                <label for="minPercent">Pourcentage minimum</label>
+                                <input id="minPercent" type="text" name="minPercent" class="form-control"
+                                    <% if (comissionFilter != null && comissionFilter.getMinPercent() != null) { %>
+                                       value="<%=comissionFilter.getMinPercent()%>"
+                                    <% } %>
+                                >
+                            </div>
+                            <div class="mb-5">
+                                <label for="maxPercent">Pourcentage minimum</label>
+                                <input id="maxPercent" type="text" name="maxPercent" class="form-control"
+                                    <% if (comissionFilter != null && comissionFilter.getMaxPercent() != null) { %>
+                                       value="<%=comissionFilter.getMaxPercent()%>"
+                                    <% } %>
+                                >
                             </div>
 
                             <button class="btn btn-primary" type="submit">
@@ -106,34 +108,35 @@
                         <thead>
                         <tr class="fw-semibold fs-6 text-muted">
                             <th>Id</th>
-                            <th>Référence</th>
-                            <th>Date</th>
-                            <th>Montant</th>
-                            <th>Source</th>
+                            <th>Valeur minimum</th>
+                            <th>Valeur maximum</th>
+                            <th>Pourcentage</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <% for(Transfer transfer : transferList) { %>
+                        <% for(Comission comission : comissionList) { %>
                         <tr>
-                            <td><%=transfer.getId()%></td>
+                            <td><%=comission.getId()%></td>
                             <td>
-                                <%= transfer.getReference() %>
+                                <%= comission.getMinValue() %>
                             </td>
                             <td>
-                                <%= transfer.getDateToStr() %>
+                                <%= comission.getMaxValue() %>
                             </td>
                             <td>
-                                <%= transfer.getAmount() %> Ar
+                                <%= comission.getPercent() %>
                             </td>
                             <td>
-                                <%= transfer.getShopSender().getName() %>
-                            </td>
-                            <td>
-                                <a href="${pageContext.request.contextPath}/transfers/<%= transfer.getId() %>" >
-                                    <i class="la la-eye text-primary fs-2x"></i>
+                                <a href="${pageContext.request.contextPath}/comissions/update/<%= comission.getId() %>" >
+                                    <i class="la la-pencil text-warning fs-2x"></i>
                                 </a>
                             </td>
-
+                            <td>
+                                <a href="#" onclick="onDeleteButtonClicked(<%= comission.getId() %>, '', '${pageContext.request.contextPath}/comissions/delete/<%=comission.getId()%>', 'la comission')"
+                                   data-bs-target="#delete-modal" data-bs-toggle="modal">
+                                    <i class="la la-trash text-danger fs-2x"></i>
+                                </a>
+                            </td>
                         </tr>
                         <% } %>
                         </tbody>
@@ -145,7 +148,7 @@
                                 <% } else { %>
                                 class="page-item previous"
                                 <% } %>
-                        ><a href="${pageContext.request.contextPath}/transfers?<%=filters%>&page=<%=pageNumber-1%>" class="page-link"><i class="previous"></i></a></li>
+                        ><a href="${pageContext.request.contextPath}/comissions?<%=filters%>&page=<%=pageNumber-1%>" class="page-link"><i class="previous"></i></a></li>
                         <% for (int i = 1 ; i <= requiredPages ; i++) { %>
                         <li
                                 <% if (pageNumber == i) { %>
@@ -153,7 +156,7 @@
                                 <% } else { %>
                                 class="page-item"
                                 <% } %>
-                        ><a href="${pageContext.request.contextPath}/sales?<%=filters%>&page=<%=i%>" class="page-link"><%=i%></a></li>
+                        ><a href="${pageContext.request.contextPath}/comissions?<%=filters%>&page=<%=i%>" class="page-link"><%=i%></a></li>
                         <% } %>
                         <li
                                 <% if (pageNumber == requiredPages) { %>
@@ -161,7 +164,7 @@
                                 <% } else { %>
                                 class="page-item next"
                                 <% } %>
-                        ><a href="${pageContext.request.contextPath}/transfers?<%=filters%>&page=<%=pageNumber+1%>"  class="page-link"><i class="next"></i></a></li>
+                        ><a href="${pageContext.request.contextPath}/comissions?<%=filters%>&page=<%=pageNumber+1%>"  class="page-link"><i class="next"></i></a></li>
                     </ul>
 
                 </div>

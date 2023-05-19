@@ -1,7 +1,12 @@
 <%@ page import="com.eval1.models.laptop.Laptop" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.eval1.models.shop.Shop" %>
+
+<% if (session.getAttribute("admin") != null) { %>
 <%@include file="../includes/layouts/default/top.jsp"%>
+<% } else { %>
+<%@include file="../includes/layouts/default/top-seller.jsp"%>
+<% } %>
 <%
     List<Laptop> laptops = (List<Laptop>) request.getAttribute("laptops");
     List<Shop> shops = (List<Shop>) request.getAttribute("shops");
