@@ -85,7 +85,7 @@ public class SaleService extends CrudServiceWithFK<Sale, Shop, ShopRepo, SaleRep
     public Sale create(Sale obj) throws Exception {
         if (!isSaleAlreadyExists(obj)) {
             obj.setAmount(1.0);
-            obj.setDate(Timestamp.valueOf(LocalDateTime.now()));
+//            obj.setDate(Timestamp.valueOf(LocalDateTime.now()));
             Sale toSave = super.create(obj);
             for (SaleDetails saleDetails : obj.getSaleDetails()) {
                 vStockService.isLaptopQuantityEnough(obj.getShop().getId().intValue(), saleDetails.getLaptop().getId().intValue(), saleDetails.getQuantity());

@@ -58,7 +58,7 @@
                         </div>
                         <div class="mb-5">
                             <label>Date :</label>
-                            <input type="date" name="reference" class="form-control" required
+                            <input type="date" name="date1" class="form-control" required
                             >
                         </div>
 

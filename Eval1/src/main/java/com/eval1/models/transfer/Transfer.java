@@ -13,6 +13,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.eval1.util.DateUtil.formatDate;
+
 
 @Getter
 @Setter
@@ -30,6 +32,8 @@ public class Transfer extends HasId {
 	private Shop shopSender;
 
 	private Double amount;
+
+	private Integer status;
 
 	@Transient
 	private List<TransferDetails> transferDetails;
@@ -65,5 +69,10 @@ public class Transfer extends HasId {
 	public void setAmount() throws CustomException {
 		setAmount(this.transferDetails.stream().mapToDouble(TransferDetails::getAmount).sum());
 	}
+
+	public String getDateToStr () {
+		return formatDate(getDate());
+	}
+
 
 }

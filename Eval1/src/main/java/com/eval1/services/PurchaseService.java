@@ -79,7 +79,7 @@ public class PurchaseService extends CrudServiceWithFK<Purchase, Shop, ShopRepo,
     @Transactional(rollbackFor = Exception.class)
     public Purchase create(Purchase obj) throws Exception {
         if (!isPurchaseAlreadyExists(obj)) {
-            obj.setDate(Timestamp.valueOf(LocalDateTime.now()));
+//            obj.setDate(Timestamp.valueOf(LocalDateTime.now()));
             Purchase toSave = super.create(obj);
             for (PurchaseDetails purchaseDetails : obj.getPurchaseDetails()) {
                 purchaseDetails.setPurchaseId(toSave.getId().intValue());

@@ -3,14 +3,19 @@ package com.eval1.controllers;
 import com.eval1.models.ActionType;
 import com.eval1.models.purchase.Purchase;
 import com.eval1.models.purchase.PurchaseInput;
+import com.eval1.models.sale.Sale;
+import com.eval1.models.sale.SaleFilter;
 import com.eval1.models.seller.Seller;
 import com.eval1.models.shop.Shop;
+import com.eval1.models.transfer.TransferFilter;
 import com.eval1.models.transfer.TransferInput;
 import com.eval1.security.SecurityManager;
 import com.eval1.services.LaptopService;
 import com.eval1.services.ShopService;
+import com.eval1.services.TransferDetailsService;
 import custom.springutils.controller.CrudController;
 import com.eval1.services.TransferService;
+import custom.springutils.util.ListResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +42,12 @@ public class TransferController {
 
     @Autowired
     private LaptopService laptopService;
+
+    @Autowired
+    private TransferService service;
+
+    @Autowired
+    private TransferDetailsService transferDetailsService;
 
     @GetMapping("/create")
     public ModelAndView create(ModelAndView model) throws Exception {
@@ -77,5 +88,31 @@ public class TransferController {
 
         }
 
+    }
+
+
+    @GetMapping
+    public ModelAndView list(ModelAndView modelAndView, TransferFilter transferFilter, @RequestParam(required = false) Integer page) throws Exception {
+        securityManager.isConnected();
+        if (page == null) page = 1;
+        Seller connected = (Seller) session.getAttribute("connected");
+        ListResponse transfers = transferService.search(transferFilter, page);
+        modelAndView.addObject("requiredPages", transferService.getRequiredPages(transfers.getCount()));
+        modelAndView.addObject("transfers",transfers);
+        modelAndView.addObject("page", page);
+        if (transferFilter != null) modelAndView.addObject("transferFilter", transferFilter);
+        modelAndView.setViewName("transfers/list-transfers");
+        return modelAndView;
+    }
+
+    @GetMapping("/{id}")
+    public ModelAndView details(ModelAndView modelAndView, @PathVariable Long id) throws Exception {
+        securityManager.isConnected();
+        Transfer transfer = transferService.findById(id);
+        ListResponse details = transferDetailsService.search(new Object(), id, null);
+        modelAndView.addObject("details",details);
+        modelAndView.addObject("transfer", transfer);
+        modelAndView.setViewName("transfers/sheet-transfer");
+        return modelAndView;
     }
 }

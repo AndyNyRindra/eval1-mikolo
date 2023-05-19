@@ -36,6 +36,9 @@ public class ReceiptService extends CrudServiceWithFK<Receipt, Transfer, Transfe
     @Autowired
     private LossService lossService;
 
+    @Autowired
+    private TransferService transferService;
+
     public ReceiptService(ReceiptRepo repo, EntityManager manager, TransferRepo refRepo) {
         super(repo, manager, refRepo);
     }
@@ -81,6 +84,10 @@ public class ReceiptService extends CrudServiceWithFK<Receipt, Transfer, Transfe
     @Transactional(rollbackFor = Exception.class)
     public Receipt create(Receipt obj) throws Exception {
         if (!isReceiptAlreadyExists(obj)) {
+
+            obj.getTransfer().setStatus(1);
+            obj.setReference(obj.getTransfer().getReference());
+            transferService.update(obj.getTransfer());
             obj.setDate(Timestamp.valueOf(LocalDateTime.now()));
             obj.setAmount((double) 1);
             Receipt toSave = super.create(obj);
