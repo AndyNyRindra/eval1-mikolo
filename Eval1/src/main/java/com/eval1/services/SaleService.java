@@ -1,5 +1,6 @@
 package com.eval1.services;
 
+import com.eval1.models.comission.Comission;
 import com.eval1.models.laptop.Laptop;
 import com.eval1.models.purchase.Purchase;
 import com.eval1.models.purchase.PurchaseDetails;
@@ -92,7 +93,7 @@ public class SaleService extends CrudServiceWithFK<Sale, Shop, ShopRepo, SaleRep
                 saleDetails.setSaleId(toSave.getId().intValue());
                 Laptop laptop = laptopService.findById(saleDetails.getLaptop().getId());
                 saleDetails.setLaptop(laptop);
-                saleDetails.setUnitPrice(laptop.getPrice());
+                saleDetails.setUnitPrice(laptop.getSellingPrice());
                 Movement movement = new Movement(saleDetails, obj.getShop().getId().intValue(), obj.getDate());
                 movementService.create(movement);
                 saleDetailsService.create(saleDetails);
@@ -102,4 +103,5 @@ public class SaleService extends CrudServiceWithFK<Sale, Shop, ShopRepo, SaleRep
         }
         return null;
     }
+
 }
