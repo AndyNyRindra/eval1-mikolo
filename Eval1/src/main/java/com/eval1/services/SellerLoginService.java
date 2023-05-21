@@ -18,6 +18,7 @@ public class SellerLoginService extends SessionLoginService<Seller, SellerRepo> 
     public AuthenticatedDetails<Seller> login(Seller entity) throws Exception {
         Seller e = this.getLoginDetails(entity);
         if (e.isSimpleSeller()) {
+            super.setSessionName("seller");
             return super.login(entity);
         }
 
