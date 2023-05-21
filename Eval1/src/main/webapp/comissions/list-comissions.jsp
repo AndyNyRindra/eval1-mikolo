@@ -124,7 +124,7 @@
                                 <%= comission.getMaxValue() %>
                             </td>
                             <td>
-                                <%= comission.getPercent() %>
+                                <%= comission.getPercent() %> %
                             </td>
                             <td>
                                 <a href="${pageContext.request.contextPath}/comissions/update/<%= comission.getId() %>" >

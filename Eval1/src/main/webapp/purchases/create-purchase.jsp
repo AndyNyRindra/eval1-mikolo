@@ -74,7 +74,7 @@
                                                         data-allow-clear="true">
                                                     <option value="" >--Ordinateurs--</option>
                                                     <% for (Laptop laptop : laptops) { %>
-                                                    <option value="<%= laptop.getId()%>" > <%= laptop.getName() %></option>
+                                                    <option value="<%= laptop.getId()%>" > <%= laptop.getName() %> - <%= laptop.getReference() %></option>
                                                     <% } %>
                                                 </select>
                                             </div>
