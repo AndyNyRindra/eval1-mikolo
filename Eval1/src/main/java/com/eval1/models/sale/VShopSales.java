@@ -3,13 +3,9 @@ package com.eval1.models.sale;
 import com.eval1.models.shop.Shop;
 import com.pdfutils.PDFColumn;
 import custom.springutils.model.HasId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 import java.lang.Integer;
 import java.lang.Double;
@@ -31,6 +27,12 @@ public class VShopSales extends HasId {
 	private Double recettes;
 	private Long nombreVentes;
 	private Date mois;
+
+	@Transient
+	private Double comissions;
+
+	@Transient
+	private Double recettesFinal;
 
 	@PDFColumn(value = "Recettes", width = 30, order=2)
 	public Double getRecettes() {
@@ -56,4 +58,9 @@ public class VShopSales extends HasId {
 	public String getMonthToStr() {
 		return getMonth(getMois());
 	}
+
+	public void setRecettesFinal() {
+		this.recettesFinal = getRecettes() - getComissions();
+	}
+
 }

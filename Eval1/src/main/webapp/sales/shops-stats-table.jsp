@@ -106,6 +106,8 @@
                             <th>Point de vente</th>
                             <th>Nombre de ventes</th>
                             <th>Recettes</th>
+                            <th>Comissions</th>
+                            <th>Total</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -116,6 +118,8 @@
                             <td><%= stat.getShop().getName() %></td>
                             <td><%= stat.getNombreVentes() %></td>
                             <td><%= stat.getRecettes() %></td>
+                            <td><%= stat.getComissions() %></td>
+                            <td><%= stat.getRecettesFinal() %></td>
                         </tr>
                         <% } %>
                         </tbody>
