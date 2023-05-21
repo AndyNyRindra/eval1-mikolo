@@ -43,13 +43,18 @@ public class VShopSalesService extends CrudService<VShopSales, VShopSalesRepo> {
     }
 
     @Override
-    protected ListResponse search(Object filter, FilterInfo criteria, Integer page) throws Exception {
-        ListResponse response = super.search(filter, criteria, page);
+    public ListResponse search(Object filter, Integer page) throws Exception {
+        ListResponse response = super.search(filter, page);
         List<VShopSales> shopSales = (List<VShopSales>) response.getElements();
         for (VShopSales sales : shopSales) {
             sales.setComissions(comissionService.getComissions(sales.getRecettes()));
             sales.setRecettesFinal();
         }
         return response;
+    }
+
+    @Override
+    public int getPageSize() {
+        return 12;
     }
 }

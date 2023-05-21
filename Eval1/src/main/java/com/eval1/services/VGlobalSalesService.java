@@ -1,5 +1,6 @@
 package com.eval1.services;
 
+import com.eval1.models.sale.VShopSales;
 import com.eval1.repositories.VGlobalSalesRepo;
 import custom.springutils.search.map.FilterInfo;
 import custom.springutils.service.CrudService;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.eval1.models.sale.VGlobalSales;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -17,6 +19,9 @@ public class VGlobalSalesService extends CrudService<VGlobalSales, VGlobalSalesR
 
     @Autowired
     private ComissionService comissionService;
+
+    @Autowired
+    private VShopSalesService vShopSalesService;
 
     public VGlobalSalesService(VGlobalSalesRepo repo, EntityManager manager) {
         super(repo, manager);
@@ -43,13 +48,51 @@ public class VGlobalSalesService extends CrudService<VGlobalSales, VGlobalSalesR
     }
 
     @Override
-    protected ListResponse search(Object filter, FilterInfo criteria, Integer page) throws Exception {
-        ListResponse response = super.search(filter, criteria, page);
+    public ListResponse search(Object filter, Integer page) throws Exception {
+        ListResponse response = super.search(filter, page);
         List<VGlobalSales> globalSales = (List<VGlobalSales>) response.getElements();
-        for (VGlobalSales globalSale : globalSales) {
-            globalSale.setComissions(comissionService.getComissions(globalSale.getRecettes()));
-            globalSale.setRecettesFinal();
+        List<VShopSales> shopSales = (List<VShopSales>) vShopSalesService.search(new Object(), null).getElements();
+        for (VGlobalSales sales : globalSales) {
+            sales.setRecettes(getSumRecettes(shopSales, sales.getMois()));
+            sales.setComissions(getSumComissions(shopSales, sales.getMois()));
+            sales.setRecettesFinal();
         }
         return response;
+    }
+
+
+
+    public Double getSumRecettes (List<VShopSales> shopSales, Date month) {
+        Double sum = 0.0;
+        for (VShopSales shopSale : shopSales) {
+            if (shopSale.getMois().equals(month)) {
+                sum += shopSale.getRecettes();
+            }
+        }
+        return sum;
+    }
+    public Double getSumComissions(List<VShopSales> shopSales, Date month) {
+        Double sum = 0.0;
+        for (VShopSales shopSale : shopSales) {
+            if (shopSale.getMois().equals(month)) {
+                sum += shopSale.getComissions();
+            }
+        }
+        return sum;
+    }
+
+    public Double getSumRecettesFinal(List<VShopSales> shopSales, Date month) {
+        Double sum = 0.0;
+        for (VShopSales shopSale : shopSales) {
+            if (shopSale.getMois().equals(month)) {
+                sum += shopSale.getRecettesFinal();
+            }
+        }
+        return sum;
+    }
+
+    @Override
+    public int getPageSize() {
+        return 12;
     }
 }
