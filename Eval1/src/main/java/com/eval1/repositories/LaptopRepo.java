@@ -12,6 +12,6 @@ public interface LaptopRepo extends JpaRepository<Laptop, Long> {
 
     List<Laptop> findByReferenceAndId(String reference, Long id);
 
-    @Query(value = "select l.* from laptop l join v_stock vs on l.id = vs.laptop_id where shop_id =?1", nativeQuery = true)
+    @Query(value = "select l.* from laptop l join v_stock vs on l.id = vs.laptop_id where shop_id =?1 and quantity > 0", nativeQuery = true)
     List<Laptop> findAvailableByShopId(Long id);
 }

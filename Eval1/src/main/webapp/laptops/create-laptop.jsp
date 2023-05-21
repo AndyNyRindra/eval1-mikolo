@@ -147,7 +147,7 @@
                 </select>
               </div>
               <div class="col-sm-6 mb-5">
-                <label>Taille disque (en Mo) :</label>
+                <label>Taille disque (en Go) :</label>
                 <input type="text" name="driverSize" class="form-control" required>
               </div>
             </div>
