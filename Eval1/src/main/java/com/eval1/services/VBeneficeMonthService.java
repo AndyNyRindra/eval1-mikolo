@@ -1,6 +1,7 @@
 package com.eval1.services;
 
 import com.eval1.models.VGlobalLoss;
+import com.eval1.models.VGlobalPurchases;
 import com.eval1.models.sale.VGlobalSales;
 import com.eval1.models.sale.VShopSales;
 import com.eval1.repositories.VBeneficeMonthRepo;
@@ -23,6 +24,9 @@ public class VBeneficeMonthService extends CrudService<VBeneficeMonth, VBenefice
 
     @Autowired
     private VGlobalLossService globalLossService;
+
+    @Autowired
+    private VGlobalPurchasesService globalPurchasesService;
 
     public VBeneficeMonthService(VBeneficeMonthRepo repo, EntityManager manager) {
         super(repo, manager);
@@ -60,8 +64,10 @@ public class VBeneficeMonthService extends CrudService<VBeneficeMonth, VBenefice
         List<VBeneficeMonth> beneficeMonths = (List<VBeneficeMonth>) response.getElements();
         List<VGlobalSales> globalSales = (List<VGlobalSales>) globalSalesService.search(new Object(), null).getElements();
         List<VGlobalLoss> globalLosses = (List<VGlobalLoss>) globalLossService.search(new Object(), null).getElements();
+        List<VGlobalPurchases> globalPurchases = (List<VGlobalPurchases>) globalPurchasesService.search(new Object(), null).getElements();
+
         for (VBeneficeMonth benefice : beneficeMonths) {
-            Double benef = getSales(benefice.getMois(), globalSales) + getLoss(benefice.getMois(), globalLosses);
+            Double benef = getSales(benefice.getMois(), globalSales) + getLoss(benefice.getMois(), globalLosses) + getPurchases(benefice.getMois(), globalPurchases);
             benefice.setMontant(benef);
         }
         return response;
@@ -72,6 +78,15 @@ public class VBeneficeMonthService extends CrudService<VBeneficeMonth, VBenefice
         for (VGlobalSales sales : globalSales) {
             if (sales.getMois().equals(month)) {
                 return sales.getRecettesFinal();
+            }
+        }
+        return 0.0;
+    }
+
+    public Double getPurchases(Date month, List<VGlobalPurchases> globalSales) {
+        for (VGlobalPurchases sales : globalSales) {
+            if (sales.getMois().equals(month)) {
+                return sales.getDepenses();
             }
         }
         return 0.0;
